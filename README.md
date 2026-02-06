@@ -48,7 +48,7 @@ To prevent Windows from interfering with the image, you must align the `target-p
 
 *   **For HDR Output (Native HDR & SDR-to-HDR Upscaling)**:
     - Locate **BOTH** the **`[HDR-HDR-Default]`** and **`[SDR-HDR-Default]`** sections.
-    - Set `target-peak` in both sections to **exactly match** your [Windows HDR Calibration](https://apps.microsoft.com) value (e.g., 400, 600, or 1000).
+    - Set `target-peak` in both sections to **exactly match** your Windows HDR Calibration value (e.g., 400, 600, or 1000).
     - **Why?** This ensures both native HDR and upscaled SDR (Inverse Tone Mapping) align perfectly with your monitor's hardware, preventing Windows from double-processing the signal.
     - ⚠️ **CRITICAL**: **DO NOT set this to `auto`.** If set to auto, mpv will skip the internal tone mapping engine and passthrough the signal to the OS, which defeats the purpose of this custom configuration and calibration.
 ---
