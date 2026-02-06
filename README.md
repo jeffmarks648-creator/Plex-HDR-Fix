@@ -69,3 +69,11 @@ The config must know if your monitor is currently in SDR or HDR mode. Open `mpv.
 *   **Performance**: If the video stutters, your GPU might be struggling with `gpu-next`. Try commenting out the `glsl-shaders` lines in `mpv.conf`.
 *   **HDR Output**: If colors look wrong, ensure your monitor is actually in HDR mode in Windows settings before toggling **`Shift + T`**.
 
+---
+
+## ⚠️ Disclaimer & Community Feedback
+- **Tested Environment**: This configuration has been primarily developed and tested on **Windows 11** with SDR displays.
+- **Mac Users**: While the paths are provided (`~/Library/Application Support/Plex/`), the behavior of `vo=gpu-next` on macOS (Metal API) may vary. 
+- **HDR Monitors**: Since I am using an SDR display, the HDR-to-HDR profiles rely on standard MPV math and user-reported nit values.
+
+**Have a Mac or HDR screen?** If you test this config, please share your results in the **Issues** tab! Your feedback helps make this config better for everyone.
