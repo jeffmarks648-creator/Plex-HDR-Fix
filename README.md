@@ -55,6 +55,7 @@ To prevent Windows from interfering with the image, you must align the `target-p
 
 ## 📊 Real-time Monitoring (Dashboard)
 Pressing `d` triggers the MPV dashboard, allowing you to monitor active tone-mapping, peak brightness, and renderer status (`gpu-next`).
+Pressing 'g' for tone mapping graph.
 
 ### Dashboard - Main Page
 ![Plex Dashboard](dashboard-1.png)
@@ -62,6 +63,8 @@ Pressing `d` triggers the MPV dashboard, allowing you to monitor active tone-map
 ### Dashboard - 2nd Page
 ![Plex Dashboard](dashboard-2.png)
 
+### Tone Mappping Graph
+![Plex Dashboard](dashboard-3.png)
 ---
 
 ## ⌨️ Hotkeys (Full Key Operations)
@@ -76,7 +79,9 @@ Pressing `d` triggers the MPV dashboard, allowing you to monitor active tone-map
 | **Output Mode** | `T` (Toggle SDR/HDR) | - | `Alt + T` (Force SDR) | `t` |
 | **Rendering Mode**| `R` (Toggle Custom/Plex) | - | - | `r` |
 | **Interpolation** | `I` (Toggle On/Off) | - | - | `i` |
-| **System Info** | `d` (Stats Overlay) | - | - | `v` (Video Params) |
+| **Video Params** | `v` | - | - | - |
+| **Tone Mapping Graph** | `g`| - | - | - |
+| **System Info** | `d` (Stats Overlay) | - | - | - |
 
 ---
 
