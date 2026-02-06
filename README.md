@@ -58,7 +58,7 @@ Pressing `d` triggers the MPV dashboard, allowing you to monitor active tone-map
 Pressing 'g' for tone mapping graph.
 
 ### Dashboard - Main Page
-
+![Plex Dashboard](dashboard-1.png)
 
 ### Dashboard - 2nd Page
 ![Plex Dashboard](dashboard-2.png)
