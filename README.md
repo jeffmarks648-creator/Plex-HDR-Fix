@@ -53,6 +53,17 @@ To prevent Windows from interfering with the image, you must align the `target-p
     - ⚠️ **CRITICAL**: **DO NOT set this to `auto`.** If set to auto, mpv will skip the internal tone mapping engine and passthrough the signal to the OS, which defeats the purpose of this custom configuration and calibration.
 ---
 
+## 📊 Real-time Monitoring (Dashboard)
+Pressing `d` triggers the MPV dashboard, allowing you to monitor active tone-mapping, peak brightness, and renderer status (`gpu-next`).
+
+### Dashboard - Main Page
+![Plex Dashboard](dashboard-1.png)
+
+### Dashboard - 2nd Page
+![Plex Dashboard](dashboard-2.png)
+
+---
+
 ## ⌨️ Hotkeys (Full Key Operations)
 
 | Function | Increase (**Shift**) | Decrease (**Alt**) | Reset (**Alt + Shift**) | Info |
