@@ -58,7 +58,7 @@ Pressing `d` triggers the MPV dashboard, allowing you to monitor active tone-map
 Pressing 'g' for tone mapping graph.
 
 ### Dashboard - Main Page
-![Plex Dashboard](dashboard-1.png)
+
 
 ### Dashboard - 2nd Page
 ![Plex Dashboard](dashboard-2.png)
@@ -79,9 +79,9 @@ Pressing 'g' for tone mapping graph.
 | **Output Mode** | `T` (Toggle SDR/HDR) | - | `Alt + T` (Force SDR) | `t` |
 | **Rendering Mode**| `R` (Toggle Custom/Plex) | - | - | `r` |
 | **Interpolation** | `I` (Toggle On/Off) | - | - | `i` |
-| **Video Params** | `v` | - | - | - |
-| **Tone Mapping Graph** | `g`| - | - | - |
-| **System Info** | `d` (Stats Overlay) | - | - | - |
+| **Video Params** | - | - | - | `v` |
+| **Tone Mapping Graph** | - | - | - | `g` |
+| **System Info** | - | - | - | `d` |
 
 ---
 
