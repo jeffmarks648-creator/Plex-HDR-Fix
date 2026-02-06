@@ -80,15 +80,6 @@ Pressing `d` triggers the MPV dashboard, allowing you to monitor active tone-map
 
 ---
 
-## 💡 Calibration Tip
-**For HDR Monitors**: 
-1. Run the [Windows HDR Calibration Tool](https://apps.microsoft.com).
-2. Note your **Peak Brightness** (e.g., 400 nits).
-3. In `mpv.conf`, set `target-peak` in `[HDR-HDR-Default]` and `[SDR-HDR-Default]` to **exactly** that value.
-4. Use the **`P`** (Shift+p) / **`Alt+p`** keys during playback if you need to fine-tune it on the fly!
-
----
-
 ## 💡 Troubleshooting
 *   **Performance**: If the video stutters, your GPU might be struggling with `gpu-next`. Try commenting out the `glsl-shaders` lines in `mpv.conf`.
 *   **HDR Output**: If colors look wrong, ensure your monitor is actually in HDR mode in Windows settings before toggling **`Shift + T`**.
