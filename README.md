@@ -38,6 +38,19 @@ The config must know if your monitor is currently in SDR or HDR mode. Open `mpv.
 
 > **Tip**: You can also toggle this instantly during playback by pressing **`Shift + T`**.
 
+### 4. Calibrate Your Target Peak (The Secret to Contrast)
+To prevent Windows from interfering with the image, you must align the `target-peak` in `mpv.conf`:
+
+*   **For SDR Output (HDR-to-SDR)**:
+    - Locate the **`[HDR-SDR-Default]`** section.
+    - Default is set to **`target-peak=170`**. 
+    - **Why?** Standard 203 nits can look dull; **170** provides a much **punchier image with deeper contrast** on standard SDR displays.
+
+*   **For HDR Output (Native HDR & SDR-to-HDR Upscaling)**:
+    - Locate **BOTH** the **`[HDR-HDR-Default]`** and **`[SDR-HDR-Default]`** sections.
+    - Set `target-peak` in both sections to **exactly match** your [Windows HDR Calibration](https://apps.microsoft.com) value (e.g., 400, 600, or 1000).
+    - **Why?** This ensures both native HDR and upscaled SDR (Inverse Tone Mapping) align perfectly with your monitor's hardware, preventing Windows from double-processing the signal.
+
 ---
 
 ## ⌨️ Hotkeys (Full Key Operations)
