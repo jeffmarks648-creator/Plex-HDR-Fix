@@ -31,12 +31,15 @@ Place the `mpv.conf` and `input.conf` from this repository into the root of the 
 ### 3. Setup Your Output Mode (SDR vs HDR)
 The config must know if your monitor is currently in SDR or HDR mode. Open `mpv.conf` and edit the following line:
 
-*   **For SDR Monitors (Default)**:
+*   **For SDR Output (Default)**:
     `target-colorspace-hint=no`
-*   **For HDR Monitors**:
+*   **For HDR Output**:
     `target-colorspace-hint=yes` *(Note: Windows HDR must also be toggled "On" in System Settings).*
 
 > **Tip**: You can also toggle this instantly during playback by pressing **`Shift + T`**.
+
+For SDR Monitor, the installation process is bascially done except you need different Target Peak from default (170).
+For HDR Monitor, pls go ahead to next step to configure the proper Target Peak (if other than default of 400).
 
 ### 4. Calibrate Your Target Peak (The Secret to Contrast)
 To prevent Windows from interfering with the image, you must align the `target-peak` in `mpv.conf`:
