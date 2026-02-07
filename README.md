@@ -54,8 +54,8 @@ To prevent Windows from interfering with the image, you must align the `target-p
 ---
 
 ## 📊 Real-time Monitoring (Dashboard)
-Pressing `d` triggers the MPV dashboard, allowing you to monitor active tone-mapping, peak brightness, and renderer status (`gpu-next`).
-Pressing 'g' for tone mapping graph.
+*   Pressing `d` triggers the MPV dashboard, allowing you to monitor video information, peak brightness, and renderer status & processing time.
+*   Pressing 'g' triggers tone mapping graph.
 
 ### Dashboard - Main Page
 ![Plex Dashboard](dashboard-1.png)
