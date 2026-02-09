@@ -79,12 +79,12 @@ To prevent Windows from interfering with the image, you must align the `target-p
 | **TM Parameter** | `N` | `Alt + n` | `Alt + N` (Reset to Default) | `n` |
 | **Saturation** | `S` | `Alt + s` | `Alt + S` (Reset to 0) | `s` |
 | **Compute Peak** | `C` | `Alt + c` | `Alt + C` (Reset to Auto) | `c` |
-| **Output Mode** | `T` (Toggle SDR/HDR) | - | `Alt + T` (Force SDR) | `t` |
-| **Rendering Mode**| `R` (Toggle Custom/Plex) | - | - | `r` |
-| **Interpolation** | `I` (Toggle On/Off) | - | - | `i` |
-| **Panscan & Zoom** | `H` (Toggle Panscan) | `Alt + h` (Toggle Zoom) | `Alt + H` (Reset to 0) | `h` |
-| **Filter (Cropping)** | `F` (Toggle OFF/16:9/0.8x) | - | - | `f` |
-| **Scale Mode** | `W` (Toggle On/Off) | - | - | `w` |
+| **Output Mode** | `T` (SDR/HDR) | - | `Alt + T` (Force SDR) | `t` |
+| **Rendering Mode**| `R` (Custom/MPV) | - | - | `r` |
+| **Interpolation** | `I` (On/Off) | - | - | `i` |
+| **Panscan & Zoom** | `H` (Off/Panscan) | `Alt + h` (Off/Zoom) | `Alt + H` (Reset to Off) | `h` |
+| **Filter (Cropping)** | `F` (Off/16:9/0.8x/W=1.9*H) | - | `Alt + F` (Reset to Off) | `f` |
+| **Unscale Mode** | `W` (Off/On/downscale-big) | - | - | `w` |
 | **Video Params** | - | - | - | `v` |
 | **Tone Mapping Graph** | - | - | - | `g` |
 | **System Info** | - | - | - | `d` |
