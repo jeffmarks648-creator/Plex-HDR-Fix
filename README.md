@@ -82,6 +82,8 @@ To prevent Windows from interfering with the image, you must align the `target-p
 | **Output Mode** | `T` (Toggle SDR/HDR) | - | `Alt + T` (Force SDR) | `t` |
 | **Rendering Mode**| `R` (Toggle Custom/Plex) | - | - | `r` |
 | **Interpolation** | `I` (Toggle On/Off) | - | - | `i` |
+| **Panscan & Zoom** | `H` (Toggle Panscan) | `Alt + h` (Toggle Zoom) | `Alt + H` (Reset to 0) | `h` |
+| **Scale Mode** | `W` (Toggle On/Off) | - | - | `w` |
 | **Video Params** | - | - | - | `v` |
 | **Tone Mapping Graph** | - | - | - | `g` |
 | **System Info** | - | - | - | `d` |
