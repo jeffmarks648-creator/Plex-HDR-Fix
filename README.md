@@ -83,7 +83,7 @@ To prevent Windows from interfering with the image, you must align the `target-p
 | **Rendering Mode**| `R` (Custom/MPV) | - | - | `r` |
 | **Interpolation** | `I` (On/Off) | - | - | `i` |
 | **Panscan & Zoom** | `H` (Off/Panscan) | `Alt + h` (Off/Zoom) | `Alt + H` (Reset to Off) | `h` |
-| **Filter (Cropping)** | `F` (Off/16:9/0.8x/W=1.9*H) | - | `Alt + F` (Reset to Off) | `f` |
+| **Filter (Cropping)** | `F` (Off/16:9/0.8x/W=1.9xH) | - | `Alt + F` (Reset to Off) | `f` |
 | **Unscale Mode** | `W` (Off/On/downscale-big) | - | - | `w` |
 | **Video Params** | - | - | - | `v` |
 | **Tone Mapping Graph** | - | - | - | `g` |
