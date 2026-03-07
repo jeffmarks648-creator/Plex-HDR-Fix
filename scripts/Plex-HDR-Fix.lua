@@ -4,7 +4,7 @@ mp.observe_property("hwdec", "string", function(name, val)
         if vf ~= "" then
             mp.set_property("vf", "")
             mp.set_property("vf", vf)
-            mp.osd_message("VF Reloaded for auto-copy")
+            mp.osd_message("AUTO-COPY Mode: Filters reloaded.")
         end
     end
 end)
