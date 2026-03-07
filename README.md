@@ -26,7 +26,7 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 - **macOS**: `~/Library/Application Support/Plex/`
 
 ### 2. Copy Config Files
-Place the `mpv.conf` and `input.conf` from this repository into the root of the Plex directory identified above.
+Place the `mpv.conf`, `input.conf` and `scripts\Plex-HDR-Fix.lua` from this repository into the root of the Plex directory identified above.
 
 ### 3. Setup Your Output Mode (SDR vs HDR)
 The config must know if your monitor is currently in SDR or HDR mode. Open `mpv.conf` and edit the following line:
