@@ -28,6 +28,8 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 ### 2. Copy Config Files
 Place the `mpv.conf`, `input.conf` and `scripts\Plex-HDR-Fix.lua` from this repository into the root of the Plex directory identified above.
 
+If your monitor frequence supports multipliers of 24 Hz, you can copy `scripts\Plex-Hz-Fix.lua` and configure TARGET_WIDTH, MOVIE_HZ and DESKTOP_HZ in the script to switch the monitor Hz in fullscreen playback. You need to download the `ChangeScreenResolution.exe` from https://tools.taubenkorb.at/change-screen-resolution/ and place the file under the script directory.
+
 ### 3. Setup Your Output Mode (SDR vs HDR)
 The config must know if your monitor is currently in SDR or HDR mode. Open `mpv.conf` and edit the following line:
 
