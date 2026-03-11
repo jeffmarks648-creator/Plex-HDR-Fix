@@ -22,7 +22,6 @@ local function is_fullscreen_width(w)
 end
 
 function change_hz(target_hz)
-
     if not target_hz or target_hz == 0 then return end
 
     local f = io.open(csr, "r")
@@ -48,7 +47,6 @@ function change_hz(target_hz)
         local old_vo = mp.get_property("vo")
         mp.set_property("vo", "null")
         mp.set_property("vo", old_vo)
-        mp.set_property("video-sync", "display-resample")
         mp.osd_message("Syncing " .. current_display .. " to " .. target_hz .. "Hz", 2)
     end
 
@@ -66,7 +64,6 @@ mp.observe_property("osd-width", "number", function(_, width)
 end)
 
 mp.register_event("file-loaded", function()
-
     if DESKTOP_HZ == 0 then
         local initial_fps = mp.get_property_number("display-fps", 0)
         if initial_fps > 0 then
