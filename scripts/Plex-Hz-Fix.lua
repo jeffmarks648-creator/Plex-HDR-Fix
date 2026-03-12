@@ -1,12 +1,13 @@
 -- Define the monitor property:
 -- TARGET_WIDTHS: the list of width for the monitor regarded as full screen playback.
 -- MOVIE_HZ: the Hz supported by the monitor that is multiplier of 24fps and to be changed for fullscreen playback.
--- DESKTOP_HZ: the default Hz of the monitor (0 will be auto-detect)
+-- DESKTOP_HZ: the default Hz of the monitor (0 will be auto-detect, for VRR Monitor, better manually specify it)
 --
 -- Pls. download ChangeScreenResolution.exe and place it in same directory.
 local TARGET_WIDTHS = { 1920, 2560, 3440, 3840, 5120, 7680 }
 local MOVIE_HZ = 48
 local DESKTOP_HZ = 0
+local enabled = true
 
 local script_path = debug.getinfo(1).source:match("@?(.+[\\/])")
 local csr = script_path .. "ChangeScreenResolution.exe"
@@ -37,7 +38,6 @@ function change_hz(target_hz)
     target_hz = tonumber(target_hz)
 
     if is_hz_shifted or target_hz ~= DESKTOP_HZ then
-
         mp.command_native({
             name = "subprocess",
             playback_only = false,
@@ -55,10 +55,12 @@ end
 
 mp.observe_property("osd-width", "number", function(_, width)
     if is_target_movie then
-        if is_fullscreen_width(width) then
-            change_hz(MOVIE_HZ)
-        elseif width > 0 and not is_fullscreen_width(width) then
-            change_hz(DESKTOP_HZ)
+        if enabled then
+            if is_fullscreen_width(width) then
+                change_hz(MOVIE_HZ)
+            elseif width > 0 and not is_fullscreen_width(width) then
+                change_hz(DESKTOP_HZ)
+            end
         end
     end
 end)
@@ -75,23 +77,56 @@ mp.register_event("file-loaded", function()
     is_target_movie = (fps > 23 and fps < 25)
 
     if is_target_movie then
-        mp.add_timeout(0.5, function()
-            local w = mp.get_property_number("osd-width", 0)
-            if is_fullscreen_width(w) then
-                change_hz(MOVIE_HZ)
-            end
-        end)
+        if enabled then
+            mp.add_timeout(0.5, function()
+                local w = mp.get_property_number("osd-width", 0)
+                if is_fullscreen_width(w) then
+                    change_hz(MOVIE_HZ)
+                end
+            end)
+        end
     end
 end)
 
 mp.register_event("end-file", function()
     if is_target_movie then
-        change_hz(DESKTOP_HZ)
+        if enabled then
+            change_hz(DESKTOP_HZ)
+        end
+        is_target_movie= false
     end
 end)
 
 mp.register_event("shutdown", function()
     if is_target_movie then
-        change_hz(DESKTOP_HZ)
+        if enabled then
+            change_hz(DESKTOP_HZ)
+        end
+        is_target_movie= false
     end
+end)
+
+local function on_opts_change()
+    if is_target_movie then
+        if not enabled then
+            change_hz(DESKTOP_HZ)
+        else
+            local w = mp.get_property_number("osd-width", 0)
+            if is_fullscreen_width(w) then
+                change_hz(MOVIE_HZ)
+            end
+        end
+    end
+end
+
+mp.add_key_binding("Q", "Hz-toggle", function()
+    enabled = not enabled
+    on_opts_change()
+    mp.osd_message("Automatic Display Hz: " .. (enabled and "Enabled" or "Disabled"))
+end)
+
+mp.add_key_binding("q", "show-hz-toggle", function()
+    local status = enabled and "Enabled" or "Disabled"
+    local current = is_hz_shifted and MOVIE_HZ or DESKTOP_HZ
+    mp.osd_message("Automatic Display Hz: " .. status .. " (" .. current .. "Hz)")
 end)
