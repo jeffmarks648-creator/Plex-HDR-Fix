@@ -14,6 +14,7 @@ local csr = script_path .. "ChangeScreenResolution.exe"
 
 local is_target_movie = false
 local is_hz_shifted = false
+local hz_shifted = 0
 
 local function is_fullscreen_width(w)
     for _, width in ipairs(TARGET_WIDTHS) do
@@ -36,21 +37,28 @@ function change_hz(target_hz)
     local current_display = (type(display_names) == "table") and display_names[1] or display_names
 
     target_hz = tonumber(target_hz)
+    if (is_hz_shifted and target_hz ~= Hz_shifted) or (not is_hz_shifted and target_hz ~= DESKTOP_HZ) then
 
-    if is_hz_shifted or target_hz ~= DESKTOP_HZ then
-        mp.command_native({
-            name = "subprocess",
-            playback_only = false,
-            args = {csr, "/d=" .. current_display, "/f=" .. tostring(target_hz)}
-        })
+        is_hz_shifted = (target_hz ~= DESKTOP_HZ)
+            if is_hz_shifted then
+                Hz_shifted = target_hz
+            else
+                Hz_shifted = 0
+        end
 
-        local old_vo = mp.get_property("vo")
-        mp.set_property("vo", "null")
-        mp.set_property("vo", old_vo)
-        mp.osd_message("Syncing " .. current_display .. " to " .. target_hz .. "Hz", 2)
+        mp.add_timeout(1, function()
+            mp.command_native({
+                name = "subprocess",
+                playback_only = false,
+                args = {csr, "/d=" .. current_display, "/f=" .. tostring(target_hz)}
+            })
+
+            local old_vo = mp.get_property("vo")
+            mp.set_property("vo", "null")
+            mp.set_property("vo", old_vo)
+            mp.osd_message("Syncing " .. current_display .. " to " .. target_hz .. "Hz", 2) 
+        end)       
     end
-
-    is_hz_shifted = (target_hz ~= DESKTOP_HZ)
 end
 
 mp.observe_property("osd-width", "number", function(_, width)
