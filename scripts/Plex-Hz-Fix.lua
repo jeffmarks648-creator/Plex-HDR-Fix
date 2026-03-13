@@ -46,29 +46,38 @@ function change_hz(target_hz)
                 Hz_shifted = 0
         end
 
-        mp.add_timeout(1, function()
-            mp.command_native({
-                name = "subprocess",
-                playback_only = false,
-                args = {csr, "/d=" .. current_display, "/f=" .. tostring(target_hz)}
-            })
+        mp.command_native({
+            name = "subprocess",
+            playback_only = false,
+            args = {csr, "/d=" .. current_display, "/f=" .. tostring(target_hz)}
+        })
 
-            local old_vo = mp.get_property("vo")
-            mp.set_property("vo", "null")
-            mp.set_property("vo", old_vo)
-            mp.osd_message("Syncing " .. current_display .. " to " .. target_hz .. "Hz", 2) 
-        end)       
+        local old_vo = mp.get_property("vo")
+        mp.set_property("vo", "null")
+        mp.set_property("vo", old_vo)
+        mp.osd_message("Syncing " .. current_display .. " to " .. target_hz .. "Hz", 2) 
     end
 end
 
+local stability_timer = nil
+
 mp.observe_property("osd-width", "number", function(_, width)
+
+    if stability_timer then
+        stability_timer:kill()
+        stability_timer = nil
+    end
+
     if is_target_movie then
         if enabled then
-            if is_fullscreen_width(width) then
-                change_hz(MOVIE_HZ)
-            elseif width > 0 and not is_fullscreen_width(width) then
-                change_hz(DESKTOP_HZ)
-            end
+            stability_timer = mp.add_timeout(1, function()
+                if is_fullscreen_width(width) then
+                    change_hz(MOVIE_HZ)
+                elseif width > 0 and not is_fullscreen_width(width) then
+                    change_hz(DESKTOP_HZ)
+                end
+                stability_timer = nil
+            end)
         end
     end
 end)
