@@ -7,7 +7,12 @@
 local TARGET_WIDTHS = { 1920, 2560, 3440, 3840, 5120, 7680 }
 local MOVIE_HZ = 48
 local DESKTOP_HZ = 0
+
+-- Enable/disable the auto-switching
 local enabled = true
+
+-- When change width, the Hz fallback will be delayed (in seconds)
+local width_change_timeout = 300
 
 local script_path = debug.getinfo(1).source:match("@?(.+[\\/])")
 local csr = script_path .. "ChangeScreenResolution.exe"
@@ -37,13 +42,13 @@ function change_hz(target_hz)
     local current_display = (type(display_names) == "table") and display_names[1] or display_names
 
     target_hz = tonumber(target_hz)
-    if (is_hz_shifted and target_hz ~= Hz_shifted) or (not is_hz_shifted and target_hz ~= DESKTOP_HZ) then
+    if (is_hz_shifted and target_hz ~= hz_shifted) or (not is_hz_shifted and target_hz ~= DESKTOP_HZ) then
 
         is_hz_shifted = (target_hz ~= DESKTOP_HZ)
             if is_hz_shifted then
-                Hz_shifted = target_hz
+                hz_shifted = target_hz
             else
-                Hz_shifted = 0
+                hz_shifted = 0
         end
 
         mp.command_native({
@@ -62,7 +67,6 @@ end
 local stability_timer = nil
 
 mp.observe_property("osd-width", "number", function(_, width)
-
     if stability_timer then
         stability_timer:kill()
         stability_timer = nil
@@ -70,14 +74,20 @@ mp.observe_property("osd-width", "number", function(_, width)
 
     if is_target_movie then
         if enabled then
-            stability_timer = mp.add_timeout(1, function()
-                if is_fullscreen_width(width) then
+            if is_fullscreen_width(width) then
+                stability_timer = mp.add_timeout(1, function()
                     change_hz(MOVIE_HZ)
-                elseif width > 0 and not is_fullscreen_width(width) then
-                    change_hz(DESKTOP_HZ)
+                    stability_timer = nil
+                end)
+            elseif width > 0 and not is_fullscreen_width(width) then
+                if is_hz_shifted then
+                    mp.osd_message("Cinema Mode: Window minimized.\nRestoring Desktop Hz in " .. width_change_timeout .. " sec", 3)
                 end
-                stability_timer = nil
-            end)
+                stability_timer = mp.add_timeout(width_change_timeout, function()
+                    change_hz(DESKTOP_HZ)
+                    stability_timer = nil
+                end)
+            end
         end
     end
 end)
@@ -106,6 +116,11 @@ mp.register_event("file-loaded", function()
 end)
 
 mp.register_event("end-file", function()
+    if stability_timer then
+        stability_timer:kill()
+        stability_timer = nil
+    end
+
     if is_target_movie then
         if enabled then
             change_hz(DESKTOP_HZ)
@@ -115,6 +130,11 @@ mp.register_event("end-file", function()
 end)
 
 mp.register_event("shutdown", function()
+    if stability_timer then
+        stability_timer:kill()
+        stability_timer = nil
+    end
+
     if is_target_movie then
         if enabled then
             change_hz(DESKTOP_HZ)
@@ -124,6 +144,11 @@ mp.register_event("shutdown", function()
 end)
 
 local function on_opts_change()
+    if stability_timer then
+        stability_timer:kill()
+        stability_timer = nil
+    end
+
     if is_target_movie then
         if not enabled then
             change_hz(DESKTOP_HZ)
