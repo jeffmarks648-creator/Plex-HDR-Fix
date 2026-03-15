@@ -44,9 +44,16 @@ mp.register_event("file-loaded", function()
 end)
 
 local vapoursynth_mp = require 'mp'
-local vapoursynth_vpy_path = "~~/scripts/Plex-VapourSynth.vpy"
 local vapoursynth_label = "VAPOUR"
 local vapoursynth_safe_label = "VAPOURSAFE"
+local vapoursynth_rife_styles = {"400", "406", "410"}
+local vapoursynth_rife_names = {["400"]="Action", ["406"]="Cinema", ["410"]="Realistic"}
+local vapoursynth_rife_paths = {}
+for _, s in ipairs(vapoursynth_rife_styles) do
+    vapoursynth_rife_paths[s] = vapoursynth_mp.command_native({"expand-path", "~~/scripts/Plex-VapourSynth-" .. s .. ".vpy"})
+end
+local vapoursynth_rife_idx = 1
+
 local vapoursynth_original_interpolation = vapoursynth_mp.get_property("interpolation", "no")
 local vapoursynth_original_hwdec = vapoursynth_mp.get_property("hwdec", "auto")
 
@@ -71,18 +78,19 @@ function vapoursynth_toggle_rife()
             local vapoursynth_scale_cmd = string.format('vf add @%s:scale=iw/2:ih/2:flags=lanczos+accurate_rnd', vapoursynth_safe_label)
             vapoursynth_mp.command(vapoursynth_scale_cmd)
         end
-        local vapoursynth_full_path = vapoursynth_mp.command_native({"expand-path", vapoursynth_vpy_path})
-        local vapoursynth_cmd = string.format('vf add @%s:vapoursynth="%s":buffered-frames=2', vapoursynth_label, vapoursynth_full_path)
+        local vapoursynth_current_style = vapoursynth_rife_styles[vapoursynth_rife_idx]
+        local vapoursynth_current_path = vapoursynth_rife_paths[vapoursynth_current_style]
+        local vapoursynth_cmd = string.format('vf add @%s:vapoursynth="%s":buffered-frames=2', vapoursynth_label, vapoursynth_current_path)
         vapoursynth_mp.command(vapoursynth_cmd)
         vapoursynth_original_interpolation = vapoursynth_mp.get_property("interpolation")
         vapoursynth_mp.set_property("interpolation", "yes")
-        vapoursynth_mp.osd_message("VapourSynth: ENABLED")
+        vapoursynth_mp.osd_message("VapourSynth: ENABLED (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")")
     else
-        
+        local vapoursynth_current_style = vapoursynth_rife_styles[vapoursynth_rife_idx]
         vapoursynth_mp.command('vf add @' .. vapoursynth_safe_label .. ':null')
         vapoursynth_mp.command('vf add @' .. vapoursynth_label .. ':null')
         vapoursynth_mp.set_property("interpolation", vapoursynth_original_interpolation)
-        vapoursynth_mp.osd_message("VapourSynth: DISABLED")
+        vapoursynth_mp.osd_message("VapourSynth: DISABLED (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")")
 
         vapoursynth_mp.add_timeout(1, function()
             vapoursynth_mp.set_property("hwdec", vapoursynth_original_hwdec)
@@ -90,9 +98,36 @@ function vapoursynth_toggle_rife()
     end
 end
 
+function vapoursynth_cycle_rife()
+    vapoursynth_rife_idx = (vapoursynth_rife_idx % #vapoursynth_rife_styles) + 1
+    local vapoursynth_current = vapoursynth_rife_styles[vapoursynth_rife_idx]
+    local vapoursynth_name = vapoursynth_rife_names[vapoursynth_current]
+
+    local vapoursynth_vf_table = vapoursynth_mp.get_property_native("vf")
+    local vapoursynth_is_active = false
+    
+    for _, vf in ipairs(vapoursynth_vf_table) do
+        if vf.label == vapoursynth_label and vf.name ~= "null" then
+            vapoursynth_is_active = true
+            break
+        end
+    end
+
+    local vapoursynth_current_style = vapoursynth_rife_styles[vapoursynth_rife_idx]
+    if vapoursynth_is_active then
+        local vapoursynth_current_path = vapoursynth_rife_paths[vapoursynth_current_style]
+        local vapoursynth_cmd = string.format('vf add @%s:vapoursynth="%s":buffered-frames=2', vapoursynth_label, vapoursynth_current_path)
+        vapoursynth_mp.command(vapoursynth_cmd)
+        vapoursynth_mp.osd_message("VapourSynth: ENABLED (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")")
+    else
+        vapoursynth_mp.osd_message("VapourSynth: DISABLED (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")")
+    end
+end
+
 function vapoursynth_show_status()
     local vapoursynth_vf_table = vapoursynth_mp.get_property_native("vf")
     local vapoursynth_current_status = "DISABLED"
+    local vapoursynth_current_style = vapoursynth_rife_styles[vapoursynth_rife_idx]
 
     for _, vapoursynth_vf in ipairs(vapoursynth_vf_table) do
         if vapoursynth_vf.label == vapoursynth_label then
@@ -103,8 +138,9 @@ function vapoursynth_show_status()
         end
     end
 
-    vapoursynth_mp.osd_message("VapourSynth: " .. vapoursynth_current_status)
+    vapoursynth_mp.osd_message("VapourSynth: " .. vapoursynth_current_status .. " (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")")
 end
 
 vapoursynth_mp.add_key_binding("E", "vapoursynth_toggle_rife", vapoursynth_toggle_rife)
 vapoursynth_mp.add_key_binding("e", "vapoursynth_show_status", vapoursynth_show_status)
+vapoursynth_mp.add_key_binding("alt+e", "vapoursynth_cycle_rife", vapoursynth_cycle_rife)

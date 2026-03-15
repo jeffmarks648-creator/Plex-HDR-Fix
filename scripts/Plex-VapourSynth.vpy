@@ -36,7 +36,8 @@ clip = core.resize.Bicubic(clip, format=vs.RGBS, matrix_in_s=matrix_s, range_in_
 if p_w > 0 or p_h > 0:
     clip = core.std.AddBorders(clip, right=p_w, bottom=p_h)
 
-clip = vsmlrt.RIFE(clip, model=406, multi=2, scale=1.0, backend=my_backend)
+rife_model_id = globals().get('target_model')
+clip = vsmlrt.RIFE(clip, model=rife_model_id, multi=2, scale=1.0, backend=my_backend)
 
 if p_w > 0 or p_h > 0:
     clip = core.std.CropRel(clip, right=p_w, bottom=p_h)
