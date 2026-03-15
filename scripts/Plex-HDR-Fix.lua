@@ -42,3 +42,69 @@ mp.add_key_binding("Alt+F", "crop-reset", crop_reset)
 mp.register_event("file-loaded", function()
     crop_current_idx = 1
 end)
+
+local vapoursynth_mp = require 'mp'
+local vapoursynth_vpy_path = "~~/scripts/Plex-VapourSynth.vpy"
+local vapoursynth_label = "VAPOUR"
+local vapoursynth_safe_label = "VAPOURSAFE"
+local vapoursynth_original_interpolation = vapoursynth_mp.get_property("interpolation", "no")
+local vapoursynth_original_hwdec = vapoursynth_mp.get_property("hwdec", "auto")
+
+function vapoursynth_toggle_rife()
+    local vapoursynth_vf_table = vapoursynth_mp.get_property_native("vf")
+    local vapoursynth_is_null_value = true
+
+      for _, vapoursynth_vf in ipairs(vapoursynth_vf_table) do
+        if vapoursynth_vf.label == vapoursynth_label then
+              if vapoursynth_vf.name ~= "null" then
+                vapoursynth_is_null_value = false
+            end
+            break
+        end
+    end
+
+    if vapoursynth_is_null_value then
+        local vapoursynth_height = vapoursynth_mp.get_property_native("height") or 0     
+        if vapoursynth_height > 1080 then
+            local vapoursynth_original_hwdec = vapoursynth_mp.get_property("hwdec", "auto")
+            vapoursynth_mp.set_property("hwdec", "auto-copy")           
+            local vapoursynth_scale_cmd = string.format('vf add @%s:scale=iw/2:ih/2:flags=lanczos+accurate_rnd', vapoursynth_safe_label)
+            vapoursynth_mp.command(vapoursynth_scale_cmd)
+        end
+        local vapoursynth_full_path = vapoursynth_mp.command_native({"expand-path", vapoursynth_vpy_path})
+        local vapoursynth_cmd = string.format('vf add @%s:vapoursynth="%s":buffered-frames=2', vapoursynth_label, vapoursynth_full_path)
+        vapoursynth_mp.command(vapoursynth_cmd)
+        vapoursynth_original_interpolation = vapoursynth_mp.get_property("interpolation")
+        vapoursynth_mp.set_property("interpolation", "yes")
+        vapoursynth_mp.osd_message("VapourSynth: ENABLED")
+    else
+        
+        vapoursynth_mp.command('vf add @' .. vapoursynth_safe_label .. ':null')
+        vapoursynth_mp.command('vf add @' .. vapoursynth_label .. ':null')
+        vapoursynth_mp.set_property("interpolation", vapoursynth_original_interpolation)
+        vapoursynth_mp.osd_message("VapourSynth: DISABLED")
+
+        vapoursynth_mp.add_timeout(1, function()
+            vapoursynth_mp.set_property("hwdec", vapoursynth_original_hwdec)
+        end)
+    end
+end
+
+function vapoursynth_show_status()
+    local vapoursynth_vf_table = vapoursynth_mp.get_property_native("vf")
+    local vapoursynth_current_status = "DISABLED"
+
+    for _, vapoursynth_vf in ipairs(vapoursynth_vf_table) do
+        if vapoursynth_vf.label == vapoursynth_label then
+            if vapoursynth_vf.name ~= "null" then
+                vapoursynth_current_status = "ENABLED"
+            end
+            break
+        end
+    end
+
+    vapoursynth_mp.osd_message("VapourSynth: " .. vapoursynth_current_status)
+end
+
+vapoursynth_mp.add_key_binding("E", "vapoursynth_toggle_rife", vapoursynth_toggle_rife)
+vapoursynth_mp.add_key_binding("e", "vapoursynth_show_status", vapoursynth_show_status)
