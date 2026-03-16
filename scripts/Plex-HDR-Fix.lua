@@ -22,6 +22,8 @@ local crop_current_idx = 1
 
 local function crop_apply()
     mp.command("vf add @CROP:" .. crop_modes[crop_current_idx])
+    vapoursynth_toggle_rife(true)
+
     mp.osd_message("Filter:\n" .. crop_modes[crop_current_idx])
 end
 
@@ -55,13 +57,25 @@ end
 local vapoursynth_rife_idx = 1
 
 local vapoursynth_original_interpolation = vapoursynth_mp.get_property("interpolation", "no")
-local vapoursynth_original_hwdec = vapoursynth_mp.get_property("hwdec", "auto")
+local vapoursynth_scale_timer = nil
+local vapoursynth_rife_timer = nil
 
-function vapoursynth_toggle_rife()
+function vapoursynth_toggle_rife(reinit)
+    local vapoursynth_was_pending = (vapoursynth_scale_timer ~= nil or vapoursynth_rife_timer ~= nil)
+    
+    if vapoursynth_scale_timer then
+        vapoursynth_scale_timer:kill()
+        vapoursynth_scale_timer = nil
+    end
+    if vapoursynth_rife_timer then
+        vapoursynth_rife_timer:kill()
+        vapoursynth_rife_timer = nil
+    end
+
     local vapoursynth_vf_table = vapoursynth_mp.get_property_native("vf")
     local vapoursynth_is_null_value = true
 
-      for _, vapoursynth_vf in ipairs(vapoursynth_vf_table) do
+    for _, vapoursynth_vf in ipairs(vapoursynth_vf_table) do
         if vapoursynth_vf.label == vapoursynth_label then
               if vapoursynth_vf.name ~= "null" then
                 vapoursynth_is_null_value = false
@@ -70,31 +84,59 @@ function vapoursynth_toggle_rife()
         end
     end
 
-    if vapoursynth_is_null_value then
-        local vapoursynth_height = vapoursynth_mp.get_property_native("height") or 0     
-        if vapoursynth_height > 1080 then
-            local vapoursynth_original_hwdec = vapoursynth_mp.get_property("hwdec", "auto")
-            vapoursynth_mp.set_property("hwdec", "auto-copy")           
-            local vapoursynth_scale_cmd = string.format('vf add @%s:scale=iw/2:ih/2:flags=lanczos+accurate_rnd', vapoursynth_safe_label)
-            vapoursynth_mp.command(vapoursynth_scale_cmd)
+    local vapoursynth_is_truly_off = (vapoursynth_is_null_value and not vapoursynth_was_pending)
+
+    if reinit and vapoursynth_is_truly_off then return end
+
+    if reinit or vapoursynth_is_truly_off  then
+
+        vapoursynth_mp.set_property_native("pause", true)
+
+        if reinit then
+            vapoursynth_mp.command('vf add @' .. vapoursynth_safe_label .. ':null')
+            vapoursynth_mp.command('vf add @' .. vapoursynth_label .. ':null')
         end
-        local vapoursynth_current_style = vapoursynth_rife_styles[vapoursynth_rife_idx]
-        local vapoursynth_current_path = vapoursynth_rife_paths[vapoursynth_current_style]
-        local vapoursynth_cmd = string.format('vf add @%s:vapoursynth="%s":buffered-frames=2', vapoursynth_label, vapoursynth_current_path)
-        vapoursynth_mp.command(vapoursynth_cmd)
-        vapoursynth_original_interpolation = vapoursynth_mp.get_property("interpolation")
-        vapoursynth_mp.set_property("interpolation", "yes")
-        vapoursynth_mp.osd_message("VapourSynth: ENABLED (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")")
+
+        vapoursynth_mp.command("frame-step")
+
+        vapoursynth_scale_timer = vapoursynth_mp.add_timeout(1, function()
+            local vapoursynth_h = vapoursynth_mp.get_property_native("video-out-params/h") or 0
+            if vapoursynth_h > 1080 then
+                vapoursynth_mp.set_property("hwdec", "auto-copy")           
+                local vapoursynth_scale_cmd = string.format('vf add @%s:scale=w=1920:h=-2:flags=lanczos+accurate_rnd', vapoursynth_safe_label)
+                vapoursynth_mp.command(vapoursynth_scale_cmd)
+            end
+
+            vapoursynth_mp.set_property_native("pause", false)
+
+            vapoursynth_rife_timer = vapoursynth_mp.add_timeout(1, function()
+                
+                vapoursynth_mp.set_property_native("pause", true)
+
+                local vapoursynth_current_style = vapoursynth_rife_styles[vapoursynth_rife_idx]
+                local vapoursynth_current_path = vapoursynth_rife_paths[vapoursynth_current_style]
+                local vapoursynth_cmd = string.format('vf add @%s:vapoursynth="%s":buffered-frames=2', vapoursynth_label, vapoursynth_current_path)
+                vapoursynth_mp.command(vapoursynth_cmd)
+
+                vapoursynth_mp.set_property_native("pause", false)
+
+                if vapoursynth_is_truly_off then
+                    vapoursynth_original_interpolation = vapoursynth_mp.get_property("interpolation")
+                    vapoursynth_mp.set_property("interpolation", "yes")
+                    vapoursynth_mp.osd_message("VapourSynth: ENABLED (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")")
+                end
+
+                vapoursynth_rife_timer = nil
+            end)
+
+            vapoursynth_scale_timer = nil
+        end)
     else
         local vapoursynth_current_style = vapoursynth_rife_styles[vapoursynth_rife_idx]
         vapoursynth_mp.command('vf add @' .. vapoursynth_safe_label .. ':null')
         vapoursynth_mp.command('vf add @' .. vapoursynth_label .. ':null')
         vapoursynth_mp.set_property("interpolation", vapoursynth_original_interpolation)
         vapoursynth_mp.osd_message("VapourSynth: DISABLED (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")")
-
-        vapoursynth_mp.add_timeout(1, function()
-            vapoursynth_mp.set_property("hwdec", vapoursynth_original_hwdec)
-        end)
     end
 end
 
@@ -141,6 +183,6 @@ function vapoursynth_show_status()
     vapoursynth_mp.osd_message("VapourSynth: " .. vapoursynth_current_status .. " (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")")
 end
 
-vapoursynth_mp.add_key_binding("E", "vapoursynth_toggle_rife", vapoursynth_toggle_rife)
+vapoursynth_mp.add_key_binding("E", "vapoursynth_toggle_rife", function() vapoursynth_toggle_rife(false) end)
 vapoursynth_mp.add_key_binding("e", "vapoursynth_show_status", vapoursynth_show_status)
 vapoursynth_mp.add_key_binding("alt+e", "vapoursynth_cycle_rife", vapoursynth_cycle_rife)

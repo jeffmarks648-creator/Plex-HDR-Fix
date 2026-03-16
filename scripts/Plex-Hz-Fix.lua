@@ -57,10 +57,19 @@ function change_hz(target_hz)
             args = {csr, "/d=" .. current_display, "/f=" .. tostring(target_hz)}
         })
 
+        local is_actually_playing = not mp.get_property_native("pause") and not mp.get_property_native("core-idle") and mp.get_property_native("video-out-params") ~= nil
+        if is_actually_playing then
+            mp.set_property_native("pause", true)
+        end
+        
         local old_vo = mp.get_property("vo")
         mp.set_property("vo", "null")
         mp.set_property("vo", old_vo)
         mp.osd_message("Syncing " .. current_display .. " to " .. target_hz .. "Hz", 2) 
+
+        if is_actually_playing then
+            mp.set_property_native("pause", false)
+        end
     end
 end
 
@@ -75,6 +84,9 @@ mp.observe_property("osd-width", "number", function(_, width)
     if is_target_movie then
         if enabled then
             if is_fullscreen_width(width) then
+                if is_hz_shifted then
+                    mp.osd_message("Cinema Mode: Window resumed.", 3)
+                end
                 stability_timer = mp.add_timeout(1, function()
                     change_hz(MOVIE_HZ)
                     stability_timer = nil
