@@ -83,11 +83,12 @@ function change_hz(target_hz)
         mp.osd_message("Syncing " .. current_display .. " to " .. target_hz .. "Hz", 2) 
 
         if is_actually_playing then
-            mp.set_property_native("pause", false)
-
             if vpy_snapshot then
+                mp.command("frame-step")
+
                 mp.add_timeout(1, function()
                     mp.command(string.format('vf add @VAPOUR:%s', vpy_snapshot))
+                    mp.set_property_native("pause", false)
                 end)
             end
         end
