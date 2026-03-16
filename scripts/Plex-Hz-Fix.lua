@@ -50,17 +50,32 @@ function change_hz(target_hz)
             else
                 hz_shifted = 0
         end
+        
+        local vpy_snapshot = nil        
+        local is_actually_playing = not mp.get_property_native("pause") and not mp.get_property_native("core-idle") and mp.get_property_native("video-out-params") ~= nil
+        if is_actually_playing then
+            mp.set_property_native("pause", true)
+
+            local vf_table = mp.get_property_native("vf")
+            for _, vf in ipairs(vf_table) do
+                if vf.label == "VAPOUR" and vf.name ~= "null" then
+                    vpy_snapshot = vf.name
+                    if vf.params then
+                        for p_name, p_val in pairs(vf.params) do
+                            vpy_snapshot = vpy_snapshot .. ":" .. p_name .. '="' .. p_val .. '"'
+                        end
+                    end
+                    break
+                end
+            end
+            mp.command('vf add @VAPOUR:null')
+        end
 
         mp.command_native({
             name = "subprocess",
             playback_only = false,
             args = {csr, "/d=" .. current_display, "/f=" .. tostring(target_hz)}
         })
-
-        local is_actually_playing = not mp.get_property_native("pause") and not mp.get_property_native("core-idle") and mp.get_property_native("video-out-params") ~= nil
-        if is_actually_playing then
-            mp.set_property_native("pause", true)
-        end
         
         local old_vo = mp.get_property("vo")
         mp.set_property("vo", "null")
@@ -69,6 +84,12 @@ function change_hz(target_hz)
 
         if is_actually_playing then
             mp.set_property_native("pause", false)
+
+            if vpy_snapshot then
+                mp.add_timeout(1, function()
+                    mp.command(string.format('vf add @VAPOUR:%s', vpy_snapshot))
+                end)
+            end
         end
     end
 end
