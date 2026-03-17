@@ -55,7 +55,7 @@ function change_hz(target_hz)
         local is_actually_playing = not mp.get_property_native("pause") and not mp.get_property_native("core-idle") and mp.get_property_native("video-out-params") ~= nil
         if is_actually_playing then
             mp.set_property_native("pause", true)
-
+            
             local vf_table = mp.get_property_native("vf")
             for _, vf in ipairs(vf_table) do
                 if vf.label == "VAPOUR" and vf.name ~= "null" then
@@ -81,19 +81,26 @@ function change_hz(target_hz)
         local old_vo = mp.get_property("vo")
         mp.set_property("vo", "null")
         mp.set_property("vo", old_vo)
-        mp.osd_message("Syncing " .. current_display .. " to " .. target_hz .. "Hz", 2) 
 
         if is_actually_playing then
             if vpy_snapshot then
-                mp.command("frame-step")
-
                 mp.add_timeout(1, function()
-                    mp.command(string.format('vf add @VAPOUR:%s', vpy_snapshot))
-                    mp.set_property_native("pause", false)
+                    mp.command("frame-step")
+
+                    mp.add_timeout(1, function()
+                        mp.command(string.format('vf add @VAPOUR:%s', vpy_snapshot))
+                        mp.set_property_native("pause", false)
+
+                        mp.osd_message("Syncing " .. current_display .. " to " .. target_hz .. "Hz", 3) 
+                    end)
                 end)
             else
                 mp.set_property_native("pause", false)
+
+                mp.osd_message("Syncing " .. current_display .. " to " .. target_hz .. "Hz", 3) 
             end
+        else
+            mp.osd_message("Syncing " .. current_display .. " to " .. target_hz .. "Hz", 3) 
         end
     end
 end
