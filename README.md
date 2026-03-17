@@ -33,8 +33,8 @@ If your monitor frequence supports multipliers of 24 Hz, you can copy `scripts\P
 - ⚠️You need to download the `ChangeScreenResolution.exe` from https://tools.taubenkorb.at/change-screen-resolution/ and place the file under the script directory.
 - ⚠️You likely need to add a custom resolution in display profile (e.g. in Nivida control panel) for 48Hz refresh rate.
 
-#### 2.2 VapourSynth AI Frame Interpolation
-You can copy `scripts\Plex-VapourSynth*` files in the scripts directoory. This integrates to VapourSynth via vs-mlrt already installed in your machines. Otherwise, you can follow the web sites how to install:
+#### 2.2 RIFE (Real-Time Intermediate Flow Estimation) Interpolation
+You can copy `scripts\Plex-VapourSynth*` files in the scripts directory. This integrates to VapourSynth with vs-mlrt plugin that already installed in your machines. Otherwise, you can follow the web sites how to install:
 - https://github.com/AmusementClub/vs-mlrt
 - https://github.com/vapoursynth/vapoursynth
 
