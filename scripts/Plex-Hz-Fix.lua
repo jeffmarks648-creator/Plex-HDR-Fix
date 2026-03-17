@@ -90,6 +90,8 @@ function change_hz(target_hz)
                     mp.command(string.format('vf add @VAPOUR:%s', vpy_snapshot))
                     mp.set_property_native("pause", false)
                 end)
+            else
+                mp.set_property_native("pause", false)
             end
         end
     end
