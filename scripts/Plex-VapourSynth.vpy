@@ -18,7 +18,7 @@ os.environ['PATH'] = py_path + os.pathsep + vs_path + os.pathsep + os.environ['P
 import vsmlrt
 core = vs.core
 
-my_backend = vsmlrt.Backend.TRT(fp16=True, device_id=0, static_shape=True)
+my_backend = vsmlrt.Backend.TRT(fp16=True, device_id=0, static_shape=False)
 
 clip = video_in
 props = clip.get_frame(0).props
@@ -32,17 +32,23 @@ matrix_s = "2020" if src_matrix == 9 else "709"
 prim_s = "2020" if src_prim == 9 else "709"
 trans_s = "smpte2084" if src_trans == 16 else "709"
 range_s = "limited" if src_range == 1 else "full"
-chroma_s = "topleft" if props.get('_ChromaLocation', 0) == 2 else "left"
 
-out_format = vs.YUV420P10 if clip.format.bits_per_sample > 8 else vs.YUV420P8
+out_format = vs.YUV420P10 if video_in.format.bits_per_sample > 8 else vs.YUV420P8
 
 w, h = clip.width, clip.height
 p_w = (64 - (w % 64)) % 64
 p_h = (64 - (h % 64)) % 64
 
-clip = core.resize.Bicubic(clip, format=vs.RGBS, matrix_in_s=matrix_s, primaries_in_s=prim_s,
-                           range_in_s=range_s, transfer_in_s=trans_s, transfer_s="linear",
-                           chromaloc_in_s=chroma_s)
+kwargs_in = {
+    "format": vs.RGBS,
+    "matrix_in_s": matrix_s,
+    "primaries_in_s": prim_s,
+    "range_in_s": range_s,
+    "transfer_in_s": trans_s,
+    "transfer_s": "linear"
+}
+
+clip = core.resize.Bicubic(clip, **kwargs_in)
 
 if p_w > 0 or p_h > 0:
     clip = core.std.AddBorders(clip, right=p_w, bottom=p_h)
@@ -53,8 +59,15 @@ clip = vsmlrt.RIFE(clip, model=rife_model_id, multi=2, scale=1.0, backend=my_bac
 if p_w > 0 or p_h > 0:
     clip = core.std.CropRel(clip, right=p_w, bottom=p_h)
 
-clip = core.resize.Bicubic(clip, format=out_format, matrix_s=matrix_s, primaries_s=prim_s,
-                           range_s=range_s, transfer_in_s="linear", transfer_s=trans_s,
-                           chromaloc_s=chroma_s)
+kwargs_out = {
+    "format": out_format,
+    "matrix_s": matrix_s,
+    "primaries_s": prim_s,
+    "range_s": range_s,
+    "transfer_in_s": "linear",
+    "transfer_s": trans_s
+}
+
+clip = core.resize.Bicubic(clip, **kwargs_out)
 
 clip.set_output()
