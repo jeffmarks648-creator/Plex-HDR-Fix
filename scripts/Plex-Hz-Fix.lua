@@ -68,6 +68,7 @@ function change_hz(target_hz)
                     break
                 end
             end
+            mp.command('vf-command @VAPOUR disable yes')
             mp.command('vf add @VAPOUR:null')
         end
 

@@ -96,9 +96,10 @@ function vapoursynth_toggle_rife(reinit)
         vapoursynth_mp.set_property_native("pause", true)
 
         if reinit then
+            vapoursynth_mp.command('vf-command @' .. vapoursynth_label .. ' disable yes')
+            vapoursynth_mp.command('vf add @' .. vapoursynth_label .. ':null')            
             vapoursynth_mp.command('vf add @' .. vapoursynth_safe_label_1.. ':null')
             vapoursynth_mp.command('vf add @' .. vapoursynth_safe_label_2.. ':null')
-            vapoursynth_mp.command('vf add @' .. vapoursynth_label .. ':null')
         end
 
         vapoursynth_mp.command("frame-step")
@@ -121,24 +122,21 @@ function vapoursynth_toggle_rife(reinit)
                 vapoursynth_mp.command(vapoursynth_pad_cmd)
             end
 
-            vapoursynth_mp.set_property_native("pause", false)
+            vapoursynth_mp.command("frame-step")
 
             vapoursynth_rife_timer = vapoursynth_mp.add_timeout(1, function()
-                
-                vapoursynth_mp.set_property_native("pause", true)
-
                 local vapoursynth_current_style = vapoursynth_rife_styles[vapoursynth_rife_idx]
                 local vapoursynth_current_path = vapoursynth_rife_paths[vapoursynth_current_style]
                 local vapoursynth_cmd = string.format('vf add @%s:vapoursynth="%s":buffered-frames=2', vapoursynth_label, vapoursynth_current_path)
                 vapoursynth_mp.command(vapoursynth_cmd)
-
-                vapoursynth_mp.set_property_native("pause", false)
-
+             
                 if vapoursynth_is_truly_off then
                     vapoursynth_original_interpolation = vapoursynth_mp.get_property("interpolation")
                     vapoursynth_mp.set_property("interpolation", "yes")
                     vapoursynth_mp.osd_message("VapourSynth: ENABLED (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")")
                 end
+
+                vapoursynth_mp.set_property_native("pause", false)
 
                 vapoursynth_rife_timer = nil
             end)
@@ -149,6 +147,7 @@ function vapoursynth_toggle_rife(reinit)
         local vapoursynth_current_style = vapoursynth_rife_styles[vapoursynth_rife_idx]
         vapoursynth_mp.command('vf add @' .. vapoursynth_safe_label_1.. ':null')
         vapoursynth_mp.command('vf add @' .. vapoursynth_safe_label_2.. ':null')
+        vapoursynth_mp.command('vf-command @' .. vapoursynth_label .. ' disable yes')
         vapoursynth_mp.command('vf add @' .. vapoursynth_label .. ':null')
         vapoursynth_mp.set_property("interpolation", vapoursynth_original_interpolation)
         vapoursynth_mp.osd_message("VapourSynth: DISABLED (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")")
@@ -172,6 +171,8 @@ function vapoursynth_cycle_rife()
 
     local vapoursynth_current_style = vapoursynth_rife_styles[vapoursynth_rife_idx]
     if vapoursynth_is_active then
+        vapoursynth_mp.command('vf-command @' .. vapoursynth_label .. ' disable yes')
+        
         local vapoursynth_current_path = vapoursynth_rife_paths[vapoursynth_current_style]
         local vapoursynth_cmd = string.format('vf add @%s:vapoursynth="%s":buffered-frames=2', vapoursynth_label, vapoursynth_current_path)
         vapoursynth_mp.command(vapoursynth_cmd)
