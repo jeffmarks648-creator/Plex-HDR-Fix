@@ -95,7 +95,7 @@ To prevent Windows from interfering with the image, you must align the `target-p
 | **Panscan & Zoom** | `H` (Off/Panscan) | `Alt + h` (Off/Zoom) | `Alt + H` (Reset to Off) | `h` |
 | **Filter (Cropping)** | `F` (Off/16:9/0.8x/W=1.9xH) | - | `Alt + F` (Reset to Off) | `f` |
 | **Unscale Mode** | `W` (Off/On/downscale-big) | - | - | `w` |
-| **RIFE Interpolation** | `E` (Enable/Disable) | `Alt + e` (Action/Cinema/Realistic) | - | `e` |
+| **RIFE Interpolation** | `E` (Enable/Disable) | `Alt + e` (Action/Cinema/Realistic) | `Alt + E` (Downscaler: 1080p/2K/4K) | `e` |
 | **Automatic Display Hz** | `Q` (Enable/Disable) | - | - | `q` |
 | **Video Params** | - | - | - | `v` |
 | **Tone Mapping Graph** | - | - | - | `g` |
