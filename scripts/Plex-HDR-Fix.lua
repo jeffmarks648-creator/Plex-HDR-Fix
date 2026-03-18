@@ -127,18 +127,18 @@ function vapoursynth_toggle_rife(reinit)
                 local vapoursynth_current_path = vapoursynth_rife_paths[vapoursynth_current_style]
                 local vapoursynth_cmd = string.format('vf add @%s:vapoursynth="%s":buffered-frames=2', vapoursynth_label, vapoursynth_current_path)
                 vapoursynth_mp.command(vapoursynth_cmd)
-             
+
                 if vapoursynth_is_truly_off then
                     vapoursynth_original_interpolation = vapoursynth_mp.get_property("interpolation")
                     vapoursynth_mp.set_property("interpolation", "yes")
-                    vapoursynth_mp.osd_message("RIFE Interpolation: ENABLED (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")")
+                    vapoursynth_mp.osd_message("RIFE Interpolation: ENABLED (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")", 3)
                 end
 
                 if vapoursynth_original_is_playing then
                     vapoursynth_original_is_playing = false
                     vapoursynth_mp.set_property_native("pause", false)
-                end
-
+                end               
+                
                 vapoursynth_rife_timer = nil
             end)
 
@@ -150,7 +150,7 @@ function vapoursynth_toggle_rife(reinit)
         vapoursynth_mp.command('vf add @' .. vapoursynth_safe_label_2.. ':null')
         vapoursynth_mp.command('vf add @' .. vapoursynth_label .. ':null')
         vapoursynth_mp.set_property("interpolation", vapoursynth_original_interpolation)
-        vapoursynth_mp.osd_message("RIFE Interpolation: DISABLED (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")")
+        vapoursynth_mp.osd_message("RIFE Interpolation: DISABLED (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")", 3)
     end
 end
 
@@ -174,9 +174,9 @@ function vapoursynth_cycle_rife()
         local vapoursynth_current_path = vapoursynth_rife_paths[vapoursynth_current_style]
         local vapoursynth_cmd = string.format('vf add @%s:vapoursynth="%s":buffered-frames=2', vapoursynth_label, vapoursynth_current_path)
         vapoursynth_mp.command(vapoursynth_cmd)
-        vapoursynth_mp.osd_message("RIFE Interpolation: ENABLED (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")")
+        vapoursynth_mp.osd_message("RIFE Interpolation: ENABLED (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")", 3)
     else
-        vapoursynth_mp.osd_message("RIFE Interpolation: DISABLED (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")")
+        vapoursynth_mp.osd_message("RIFE Interpolation: DISABLED (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")", 3)
     end
 end
 
@@ -194,7 +194,7 @@ function vapoursynth_show_status()
         end
     end
 
-    vapoursynth_mp.osd_message("RIFE Interpolation: " .. vapoursynth_current_status .. " (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")")
+    vapoursynth_mp.osd_message("RIFE Interpolation: " .. vapoursynth_current_status .. " (" .. vapoursynth_rife_names[vapoursynth_current_style] .. ")", 3)
 end
 
 vapoursynth_mp.add_key_binding("E", "vapoursynth_toggle_rife", function() vapoursynth_toggle_rife(false) end)
