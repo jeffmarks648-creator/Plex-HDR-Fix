@@ -108,6 +108,7 @@ function change_hz(target_hz)
         if vpy_snapshot then
             mp.add_timeout(1, function()
                 if vpy_scale_snapshot then
+                    mp.set_property("hwdec", "auto-copy")    
                     mp.command(string.format('vf add @VAPOURSAFE1:%s', vpy_scale_snapshot))
                     mp.command(string.format('vf add @VAPOURSAFE2:%s', vpy_pad_snapshot))
                 end

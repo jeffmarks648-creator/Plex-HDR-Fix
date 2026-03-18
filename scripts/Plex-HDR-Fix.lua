@@ -64,6 +64,10 @@ local vapoursynth_scale_timer = nil
 local vapoursynth_rife_timer = nil
 local vapoursynth_original_is_playing = false
 
+local vapoursynth_scale_target_w = {1920, 2560, 3840}
+local vapoursynth_scale_target_h = {1080, 1440, 2160}
+local vapoursynth_scale_idx = 1 
+
 function vapoursynth_toggle_rife(reinit)
     local vapoursynth_was_pending = (vapoursynth_scale_timer ~= nil or vapoursynth_rife_timer ~= nil)
     
@@ -107,12 +111,12 @@ function vapoursynth_toggle_rife(reinit)
 
         vapoursynth_scale_timer = vapoursynth_mp.add_timeout(1, function()
             local vapoursynth_h = vapoursynth_mp.get_property_native("video-out-params/h") or 0
-            if vapoursynth_h > 1080 then
+            if vapoursynth_h > vapoursynth_scale_target_h[vapoursynth_scale_idx] then
                 vapoursynth_mp.set_property("hwdec", "auto-copy")           
 
                 local vapoursynth_scale_cmd = string.format(
                     'vf add @%s:scale=w=iw*%d/iw:h=ih*%d/iw:force_original_aspect_ratio=decrease:flags=lanczos+accurate_rnd', 
-                        vapoursynth_safe_label_1, 1920, 1920
+                        vapoursynth_safe_label_1, vapoursynth_scale_target_w[vapoursynth_scale_idx], vapoursynth_scale_target_w[vapoursynth_scale_idx]
                 )
                 vapoursynth_mp.command(vapoursynth_scale_cmd)
 
@@ -180,6 +184,14 @@ function vapoursynth_cycle_rife()
     end
 end
 
+function vapoursynth_cycle_downscaler()
+    vapoursynth_scale_idx = (vapoursynth_scale_idx % #vapoursynth_scale_target_h) + 1
+
+    vapoursynth_toggle_rife(true)
+
+    vapoursynth_mp.osd_message("RIFE Interpolation Scaler: (" .. vapoursynth_scale_target_w[vapoursynth_scale_idx] .. "x" .. vapoursynth_scale_target_h[vapoursynth_scale_idx] ..  ")", 3)
+end
+
 function vapoursynth_show_status()
     local vapoursynth_vf_table = vapoursynth_mp.get_property_native("vf")
     local vapoursynth_current_status = "DISABLED"
@@ -200,3 +212,4 @@ end
 vapoursynth_mp.add_key_binding("E", "vapoursynth_toggle_rife", function() vapoursynth_toggle_rife(false) end)
 vapoursynth_mp.add_key_binding("e", "vapoursynth_show_status", vapoursynth_show_status)
 vapoursynth_mp.add_key_binding("alt+e", "vapoursynth_cycle_rife", vapoursynth_cycle_rife)
+vapoursynth_mp.add_key_binding("Alt+E", "vapoursynth_cycle_downscaler", vapoursynth_cycle_downscaler)
