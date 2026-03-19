@@ -35,9 +35,20 @@ range_s = "limited" if src_range == 1 else "full"
 
 out_format = vs.YUV420P10 if video_in.format.bits_per_sample > 8 else vs.YUV420P8
 
-w, h = clip.width, clip.height
-p_w = (64 - (w % 64)) % 64
-p_h = (64 - (h % 64)) % 64
+requested_w = int(globals().get('target_width', 0))
+
+src_w = video_in.width
+src_h = video_in.height
+
+do_scale = (requested_w > 0 and src_w > requested_w)
+if do_scale:
+    target_w = requested_w
+    target_h = int(src_h * target_w / src_w)
+    needs_odd_fix = (target_h % 2 != 0)
+else:
+    target_w = src_w
+    target_h = src_h
+    needs_odd_fix = (target_h % 2 != 0)
 
 kwargs_in = {
     "format": vs.RGBS,
@@ -45,10 +56,23 @@ kwargs_in = {
     "primaries_in_s": prim_s,
     "range_in_s": range_s,
     "transfer_in_s": trans_s,
-    "transfer_s": "linear"
+    "transfer_s": "linear",
+    "filter_param_a": 0,        # b=0
+    "filter_param_b": 0.5       # c=0.5 (Catmull-Rom)
 }
 
-clip = core.resize.Bicubic(clip, **kwargs_in)
+if do_scale:
+    if needs_odd_fix:
+        clip = core.std.AddBorders(video_in, bottom=2)
+        clip = core.resize.Bicubic(clip, width=target_w, height=target_h + 1, **kwargs_in)
+    else:
+        clip = core.resize.Bicubic(video_in, width=target_w, height=target_h, **kwargs_in)
+else:
+    clip = core.resize.Bicubic(video_in, **kwargs_in)
+
+w, h = clip.width, clip.height
+p_w = (64 - (w % 64)) % 64
+p_h = (64 - (h % 64)) % 64
 
 if p_w > 0 or p_h > 0:
     clip = core.std.AddBorders(clip, right=p_w, bottom=p_h)
