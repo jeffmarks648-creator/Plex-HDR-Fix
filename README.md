@@ -23,7 +23,7 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 | **Saturation Control** | Real-time adjustment (-100 to +100) with algorithm-specific presets |
 | **Aspect Ratio Control** | Support cropping, zooming and panscan for full 16:9, 1.9:1 display |
 | **Subtitle Scaling** | Automatic adjustment of ASS substitles for cropped/zoomed content |
-| **Automatic Refresh Rate** | 48Hz for 24fps content, fullscreen triggers Refresh Rate switch, windowed recovery after 5 min during playback |
+| **Auto Refresh Rate** | 48Hz for 24fps content, fullscreen triggers Refresh Rate switch, windowed recovery after 5 min during playback |
 | **RIFE AI Interpolation** | Switchable 3 models: Action (400), Cinema (406), Realistic (410) and pre-downscaler for GPU performance  |
 | **Interpolation Profiles** | 8 automatic profiles for different display refresh rates, 48Hz, 60 Hz and above, against 24, 48, and 60 fps content |
 | **Smart Padding** | Automatic pixel alignment (4px width, 2px height) for better scaling and hardware decoding  |
