@@ -26,6 +26,7 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 | **Automatic Refresh Rate** | 48Hz for 24fps content, fullscreen triggers Refresh Rate switch, windowed recovery after 5 min during playback |
 | **RIFE AI Interpolation** | Switchable 3 models: Action (400), Cinema (406), Realistic (410) and pre-downscaler for GPU performance  |
 | **Interpolation Profiles** | 8 automatic profiles for different display refresh rates |
+| **Audio Downmix** | Improve downmix of 7.1, 5.1 and 2.0 for stereo output |
 | **Smart Padding** | Automatic pixel alignment (4px width, 2px height) for scaling and hardware decoding  |
 | **Dot-to-Dot Scaling** | Disables upscaling when difference <10 pixels, e.g. 1918 or 3836 width, when fullscreen playback |
 | **Upscaling** | ewa_lanczossharp, mitchell, spline36 with anti-ringing filters |
