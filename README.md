@@ -5,17 +5,46 @@ By default, **Plex Desktop performs no internal tone mapping.** It relies entire
 - **On SDR Screens**: You get a washed-out, grey image because the OS can't map HDR colors properly.
 - **On HDR Screens**: It relies on generic system handling, often resulting in inaccurate brightness peaks, crushed highlights, or loss of fine detail.
 
-This configuration suite fixes Plex by implementing an **active mpv pipeline** using the modern **`gpu-next`** renderer.
-
+This configuration suite fixes Plex by implementing an **active mpv pipeline** using the modern **`gpu-next`** renderer:
+- **Active Control**: Stop relying on Windows' mediocre conversion. This config performs high-quality mapping internally for superior color accuracy.
+- **Bit-Perfect HDR**: Match mpv's output peak **exactly** to your calibrated profile to prevent quality-degrading secondary conversions by the OS.
+- **Advanced SDR-to-HDR**: Uses **Inverse Tone Mapping** to make standard SDR content look vibrant and dynamic on HDR displays.
+- **Optimized HDR-to-SDR**: Fine-tuned profiles for various algorithms (Spline, BT.2446a, etc.) ensure HDR movies look perfect on standard monitors.
+- **No Extra Downloads**: Leverages high-end shaders already included in the Plex package (SSim/Krig) to eliminate blur.
 ---
+## ✨ Features
 
-## 🌟 Why use this config?
+### 🎨 Colour Processing
 
-1. **Active Control**: Stop relying on Windows' mediocre conversion. This config performs high-quality mapping internally for superior color accuracy.
-2. **Bit-Perfect HDR**: Match mpv's output peak **exactly** to your calibrated profile to prevent quality-degrading secondary conversions by the OS.
-3. **Advanced SDR-to-HDR**: Uses **Inverse Tone Mapping** to make standard SDR content look vibrant and dynamic on HDR displays.
-4. **Optimized HDR-to-SDR**: Fine-tuned profiles for various algorithms (Spline, BT.2446a, etc.) ensure HDR movies look perfect on standard monitors.
-5. **No Extra Downloads**: Leverages high-end shaders already included in the Plex package (SSim/Krig) to eliminate blur.
+| Feature | Description |
+|---------|-------------|
+| **Tone Mapping** | 11 algorithms including BT.2446a, BT.2390, ST2094-40/10, Spline, Mobius, Reinhard, Hable |
+| **Dynamic HDR Analysis** | Scene-based peak detection (99.9th percentile) with contrast recovery |
+| **Target Peak Control** | 41-step target peak brightness cycling (100-450 nits + auto) |
+| **Saturation Control** | Real-time adjustment (-100 to +100) with algorithm-specific presets |
+| **Output Management** | HDR passthrough, SDR with dithering, 10-bit optional |
+
+### 🔬 Pixel Processing
+
+| Feature | Description |
+|---------|-------------|
+| **Upscaling** | ewa_lanczossharp, mitchell, spline36 with anti-ringing filters |
+| **Shaders** | KrigBilateral (edge-preserving), SSimSuperRes (detail enhancement), SSimDownscaler |
+| **Debanding** | 4-pass debanding with configurable threshold, range, and grain |
+| **Smart Padding** | Automatic alignment for hardware decoding (4px width, 2px height) |
+| **64-pixel Alignment** | GPU memory optimization for AI inference |
+| **Dot-to-Dot Scaling** | Disables upscaling when difference <10 pixels |
+| **Subtitle Scaling** | Automatic adjustment for cropped/zoomed content |
+| **Dithering** | Fruit (8-bit) and error diffusion (10-bit) algorithms |
+
+### ⚡ Refresh Rate & Motion
+
+| Feature | Description |
+|---------|-------------|
+| **Automatic Refresh Switching** | 48Hz for 24fps content, desktop recovery on exit |
+| **Window State Detection** | Fullscreen triggers switch, windowed delayed recovery |
+| **RIFE AI Interpolation** | 3 models: Action (400), Cinema (406), Realistic (410) |
+| **Interpolation Profiles** | 8 automatic profiles for different display refresh rates |
 
 ---
 
