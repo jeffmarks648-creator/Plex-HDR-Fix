@@ -27,7 +27,7 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 | **RIFE AI Interpolation** | 3 models: Action (400), Cinema (406), Realistic (410) |
 | **Interpolation Profiles** | 8 automatic profiles for different display refresh rates |
 | **Smart Padding** | Automatic pixel alignment (4px width, 2px height) for scaling and hardware decoding  |
-| **Dot-to-Dot Scaling** | Disables upscaling when difference <10 pixels, e.g. 1918 or 3836 width |
+| **Dot-to-Dot Scaling** | Disables upscaling when difference <10 pixels, e.g. 1918 or 3836 width, when fullscreen playback |
 | **Upscaling** | ewa_lanczossharp, mitchell, spline36 with anti-ringing filters |
 | **Shaders** | KrigBilateral (edge-preserving), SSimSuperRes (detail enhancement), SSimDownscaler |
 | **Debanding** | 4-pass debanding with configured threshold, range, and grain |
