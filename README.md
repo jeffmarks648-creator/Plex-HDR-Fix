@@ -18,19 +18,19 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 | Feature | Description |
 |---------|-------------|
 | **Tone Mapping Control** | Real-time switching of algorithms for various HDR contents including BT.2446a, BT.2390, ST2094-40/10, Spline, Mobius, Reinhard, Hable |
-| **Dynamic HDR Analysis** | Scene-based peak detection (99.9th percentile) with contrast recovery |
-| **Target Peak Control** | Real-time target peak brightness cycling (100-450 nits + auto) |
+| **Dynamic HDR Analysis** | Target Peak Compute with scene-based peak detection (99.9th percentile) with contrast recovery |
+| **Target Peak Control** | Real-time target peak brightness cycling (100-450 nits + auto) for various HDR content |
 | **Saturation Control** | Real-time adjustment (-100 to +100) with algorithm-specific presets |
-| **Aspect Ratio Control** | Support cropping, zooming and panscan for full 16:9, 1.9:1 display |
+| **Aspect Ratio Control** | Support cropping, zooming and panscan of widecreen content for full 16:9, 1.9:1 display |
 | **Subtitle Scaling** | Automatic adjustment of ASS substitles for cropped/zoomed content |
 | **Auto Refresh Rate** | 48Hz for 24fps content, fullscreen triggers Refresh Rate switch, windowed recovery after 5 min during playback |
-| **RIFE AI Interpolation** | Switchable 3 models: Action (400), Cinema (406), Realistic (410) and pre-downscaler for various GPU power  |
+| **RIFE AI Interpolation** | Switchable 3 RIFE models via VapourSynth filters: Action (400), Cinema (406), Realistic (410) and pre-downscalers for various GPU power  |
 | **Interpolation Profiles** | 8 automatic profiles for different display refresh rates, 48Hz, 60 Hz and above, against 24, 48, and 60 fps content |
-| **Smart Padding** | Automatic pixel alignment (4px width, 2px height) for better scaling and hardware decoding  |
+| **Smart Padding** | Automatic pixel alignment (4px width, 2px height) for better scaling and hardware decoding |
 | **Dot-to-Dot Scaling** | Disables upscaling when difference <10 pixels, e.g. 1918 or 3836 width, when fullscreen playback |
 | **Upscaling** | ewa_lanczossharp, mitchell, spline36 with anti-ringing filters |
 | **Shaders** | KrigBilateral (edge-preserving), SSimSuperRes (detail enhancement), SSimDownscaler |
-| **Debanding** | 2-iteration debanding with configured threshold, range, and grain |
+| **Debanding** | 2-iteration debanding with configured threshold, range, and grain for high quality content |
 | **Dithering** | Fruit (8-bit) for SDR diaplsy and error diffusion (10-bit) for HDR display |
 | **Audio Downmix** | Improve downmix of 7.1, 5.1 and 2.0 for stereo output |
 | **Monitoring** | Standard MPV Dashboard and Tone Mapping Graph |
