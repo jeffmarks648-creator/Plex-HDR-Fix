@@ -17,9 +17,9 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 
 | Feature | Description |
 |---------|-------------|
-| **Tone Mapping Control** | Real-time switching of algorithms including BT.2446a, BT.2390, ST2094-40/10, Spline, Mobius, Reinhard, Hable |
+| **Tone Mapping Control** | Real-time switching of algorithms for various HDR contents including BT.2446a, BT.2390, ST2094-40/10, Spline, Mobius, Reinhard, Hable |
 | **Dynamic HDR Analysis** | Scene-based peak detection (99.9th percentile) with contrast recovery |
-| **Target Peak Control** | Real-time 41-step target peak brightness cycling (100-450 nits + auto) |
+| **Target Peak Control** | Real-time target peak brightness cycling (100-450 nits + auto) |
 | **Saturation Control** | Real-time adjustment (-100 to +100) with algorithm-specific presets |
 | **Aspect Ratio Control** | Support cropping, zooming and panscan for full 16:9, 1.9:1 display |
 | **Subtitle Scaling** | Automatic adjustment of ASS substitles for cropped/zoomed content |
