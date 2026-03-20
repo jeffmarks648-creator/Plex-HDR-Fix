@@ -32,8 +32,7 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 | **Upscaling** | ewa_lanczossharp, mitchell, spline36 with anti-ringing filters |
 | **Shaders** | KrigBilateral (edge-preserving), SSimSuperRes (detail enhancement), SSimDownscaler |
 | **Debanding** | 2-iteration debanding with configured threshold, range, and grain |
-| **Dithering** | Fruit (8-bit) and error diffusion (10-bit) algorithms |
-| **Output Management** | HDR passthrough, SDR with dithering, 10-bit optional |
+| **Dithering** | Fruit (8-bit) for SDR diaplsy and error diffusion (10-bit) for HDR display |
 | **Monitoring** | Standard MPV Dashboard and Tone Mapping Graph |
 
 ---
