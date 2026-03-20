@@ -33,7 +33,7 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 | **Debanding** | 4-pass debanding with configured threshold, range, and grain |
 | **Dithering** | Fruit (8-bit) and error diffusion (10-bit) algorithms |
 | **Output Management** | HDR passthrough, SDR with dithering, 10-bit optional |
-| **Monitoring** | MPV Stats Pages and Tone Mapping Graph |
+| **Monitoring** | Standard MPV Dashboard and Tone Mapping Graph |
 
 ---
 
