@@ -33,8 +33,6 @@ prim_s = "2020" if src_prim == 9 else "709"
 trans_s = "smpte2084" if src_trans == 16 else "709"
 range_s = "limited" if src_range == 1 else "full"
 
-out_format = vs.YUV420P10 if video_in.format.bits_per_sample > 8 else vs.YUV420P8
-
 requested_w = int(globals().get('target_width', 0))
 
 src_w = video_in.width
@@ -68,7 +66,11 @@ if do_scale:
     else:
         clip = core.resize.Bicubic(video_in, width=target_w, height=target_h, **kwargs_in)
 else:
-    clip = core.resize.Bicubic(video_in, **kwargs_in)
+    if needs_odd_fix:
+        clip = core.std.AddBorders(video_in, bottom=1)
+        clip = core.resize.Bicubic(clip, width=src_w, height=src_h + 1, **kwargs_in)
+    else:
+        clip = core.resize.Bicubic(video_in, **kwargs_in)
 
 w, h = clip.width, clip.height
 p_w = (64 - (w % 64)) % 64
@@ -84,7 +86,7 @@ if p_w > 0 or p_h > 0:
     clip = core.std.CropRel(clip, right=p_w, bottom=p_h)
 
 kwargs_out = {
-    "format": out_format,
+    "format": vs.YUV420P10,
     "matrix_s": matrix_s,
     "primaries_s": prim_s,
     "range_s": range_s,
