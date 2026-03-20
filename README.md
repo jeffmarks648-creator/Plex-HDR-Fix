@@ -14,8 +14,6 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 ---
 ## ✨ Features
 
-### 🎨 Colour Processing
-
 | Feature | Description |
 |---------|-------------|
 | **Tone Mapping** | 11 algorithms including BT.2446a, BT.2390, ST2094-40/10, Spline, Mobius, Reinhard, Hable |
@@ -23,28 +21,18 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 | **Target Peak Control** | 41-step target peak brightness cycling (100-450 nits + auto) |
 | **Saturation Control** | Real-time adjustment (-100 to +100) with algorithm-specific presets |
 | **Output Management** | HDR passthrough, SDR with dithering, 10-bit optional |
-
-### 🔬 Pixel Processing
-
-| Feature | Description |
-|---------|-------------|
 | **Upscaling** | ewa_lanczossharp, mitchell, spline36 with anti-ringing filters |
 | **Shaders** | KrigBilateral (edge-preserving), SSimSuperRes (detail enhancement), SSimDownscaler |
 | **Debanding** | 4-pass debanding with configurable threshold, range, and grain |
 | **Smart Padding** | Automatic alignment for hardware decoding (4px width, 2px height) |
-| **64-pixel Alignment** | GPU memory optimization for AI inference |
 | **Dot-to-Dot Scaling** | Disables upscaling when difference <10 pixels |
 | **Subtitle Scaling** | Automatic adjustment for cropped/zoomed content |
 | **Dithering** | Fruit (8-bit) and error diffusion (10-bit) algorithms |
-
-### ⚡ Refresh Rate & Motion
-
-| Feature | Description |
-|---------|-------------|
 | **Automatic Refresh Switching** | 48Hz for 24fps content, desktop recovery on exit |
 | **Window State Detection** | Fullscreen triggers switch, windowed delayed recovery |
 | **RIFE AI Interpolation** | 3 models: Action (400), Cinema (406), Realistic (410) |
 | **Interpolation Profiles** | 8 automatic profiles for different display refresh rates |
+| **Monitoring** | MPV Datas Pages and Tone Mapping Graph |
 
 ---
 
