@@ -68,7 +68,7 @@ if do_scale:
 else:
     if needs_odd_fix:
         clip = core.std.AddBorders(video_in, bottom=1)
-        clip = core.resize.Bicubic(clip, width=src_w, height=src_h + 1, **kwargs_in)
+        clip = core.resize.Bicubic(clip, width=target_w, height=target_h + 1, **kwargs_in)
     else:
         clip = core.resize.Bicubic(video_in, **kwargs_in)
 
