@@ -11,6 +11,7 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 - **Advanced SDR-to-HDR**: Uses **Inverse Tone Mapping** to make standard SDR content look vibrant and dynamic on HDR displays.
 - **Optimized HDR-to-SDR**: Fine-tuned profiles for various algorithms (Spline, BT.2446a, etc.) ensure HDR movies look perfect on standard monitors.
 - **No Extra Downloads**: Leverages high-end shaders already included in the Plex package (SSim/Krig) to eliminate blur.
+
 ---
 ## ✨ Features
 
@@ -20,18 +21,18 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 | **Dynamic HDR Analysis** | Scene-based peak detection (99.9th percentile) with contrast recovery |
 | **Target Peak Control** | Real-time 41-step target peak brightness cycling (100-450 nits + auto) |
 | **Saturation Control** | Real-time adjustment (-100 to +100) with algorithm-specific presets |
-| **Output Management** | HDR passthrough, SDR with dithering, 10-bit optional |
-| **Upscaling** | ewa_lanczossharp, mitchell, spline36 with anti-ringing filters |
-| **Shaders** | KrigBilateral (edge-preserving), SSimSuperRes (detail enhancement), SSimDownscaler |
-| **Debanding** | 4-pass debanding with configured threshold, range, and grain |
 | **Aspect Ratio Control** | Support cropping, zooming and panscan for 16:9, 1.9:1 display |
-| **Smart Padding** | Automatic pixel alignment (4px width, 2px height) for scaling and hardware decoding  |
-| **Dot-to-Dot Scaling** | Disables upscaling when difference <10 pixels, e.g. 1918 or 3836 width |
 | **Subtitle Scaling** | Automatic adjustment for cropped/zoomed content |
 | **Automatic Refresh Rate** | 48Hz for 24fps content, Fullscreen triggers Refresh Rate switch, windowed delayed recovery|
 | **RIFE AI Interpolation** | 3 models: Action (400), Cinema (406), Realistic (410) |
 | **Interpolation Profiles** | 8 automatic profiles for different display refresh rates |
+| **Smart Padding** | Automatic pixel alignment (4px width, 2px height) for scaling and hardware decoding  |
+| **Dot-to-Dot Scaling** | Disables upscaling when difference <10 pixels, e.g. 1918 or 3836 width |
+| **Upscaling** | ewa_lanczossharp, mitchell, spline36 with anti-ringing filters |
+| **Shaders** | KrigBilateral (edge-preserving), SSimSuperRes (detail enhancement), SSimDownscaler |
+| **Debanding** | 4-pass debanding with configured threshold, range, and grain |
 | **Dithering** | Fruit (8-bit) and error diffusion (10-bit) algorithms |
+| **Output Management** | HDR passthrough, SDR with dithering, 10-bit optional |
 | **Monitoring** | MPV Datas Pages and Tone Mapping Graph |
 
 ---
