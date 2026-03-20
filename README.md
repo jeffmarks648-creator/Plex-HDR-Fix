@@ -21,7 +21,7 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 | **Dynamic HDR Analysis** | Scene-based peak detection (99.9th percentile) with contrast recovery |
 | **Target Peak Control** | Real-time 41-step target peak brightness cycling (100-450 nits + auto) |
 | **Saturation Control** | Real-time adjustment (-100 to +100) with algorithm-specific presets |
-| **Aspect Ratio Control** | Support cropping, zooming and panscan for 16:9, 1.9:1 display |
+| **Aspect Ratio Control** | Support cropping, zooming and panscan for full 16:9, 1.9:1 display |
 | **Subtitle Scaling** | Automatic adjustment for cropped/zoomed content for ASS substitles |
 | **Automatic Refresh Rate** | 48Hz for 24fps content, fullscreen triggers Refresh Rate switch, windowed delayed recovery|
 | **RIFE AI Interpolation** | 3 models: Action (400), Cinema (406), Realistic (410) |
