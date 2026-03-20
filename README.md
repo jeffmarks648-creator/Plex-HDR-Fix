@@ -16,22 +16,22 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 
 | Feature | Description |
 |---------|-------------|
-| **Tone Mapping** | 11 algorithms including BT.2446a, BT.2390, ST2094-40/10, Spline, Mobius, Reinhard, Hable |
+| **Tone Mapping Control** | Real-time switching of algorithms including BT.2446a, BT.2390, ST2094-40/10, Spline, Mobius, Reinhard, Hable |
 | **Dynamic HDR Analysis** | Scene-based peak detection (99.9th percentile) with contrast recovery |
-| **Target Peak Control** | 41-step target peak brightness cycling (100-450 nits + auto) |
+| **Target Peak Control** | Real-time 41-step target peak brightness cycling (100-450 nits + auto) |
 | **Saturation Control** | Real-time adjustment (-100 to +100) with algorithm-specific presets |
 | **Output Management** | HDR passthrough, SDR with dithering, 10-bit optional |
 | **Upscaling** | ewa_lanczossharp, mitchell, spline36 with anti-ringing filters |
 | **Shaders** | KrigBilateral (edge-preserving), SSimSuperRes (detail enhancement), SSimDownscaler |
-| **Debanding** | 4-pass debanding with configurable threshold, range, and grain |
-| **Smart Padding** | Automatic alignment for hardware decoding (4px width, 2px height) |
-| **Dot-to-Dot Scaling** | Disables upscaling when difference <10 pixels |
+| **Debanding** | 4-pass debanding with configured threshold, range, and grain |
+| **Aspect Ratio Control** | Support cropping, zooming and panscan for 16:9, 1.9:1 display |
+| **Smart Padding** | Automatic pixel alignment (4px width, 2px height) for scaling and hardware decoding  |
+| **Dot-to-Dot Scaling** | Disables upscaling when difference <10 pixels, e.g. 1918 or 3836 width |
 | **Subtitle Scaling** | Automatic adjustment for cropped/zoomed content |
-| **Dithering** | Fruit (8-bit) and error diffusion (10-bit) algorithms |
-| **Automatic Refresh Switching** | 48Hz for 24fps content, desktop recovery on exit |
-| **Window State Detection** | Fullscreen triggers switch, windowed delayed recovery |
+| **Automatic Refresh Rate** | 48Hz for 24fps content, Fullscreen triggers Refresh Rate switch, windowed delayed recovery|
 | **RIFE AI Interpolation** | 3 models: Action (400), Cinema (406), Realistic (410) |
 | **Interpolation Profiles** | 8 automatic profiles for different display refresh rates |
+| **Dithering** | Fruit (8-bit) and error diffusion (10-bit) algorithms |
 | **Monitoring** | MPV Datas Pages and Tone Mapping Graph |
 
 ---
