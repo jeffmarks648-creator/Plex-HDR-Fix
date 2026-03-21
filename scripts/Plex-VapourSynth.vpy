@@ -28,10 +28,15 @@ src_prim = int(props.get('_Primaries', 1))
 src_trans = int(props.get('_Transfer', 1))
 src_range = int(props.get('_ColorRange', 1))
 
-matrix_s = "2020" if src_matrix == 9 else "709"
-prim_s = "2020" if src_prim == 9 else "709"
-trans_s = "smpte2084" if src_trans == 16 else "709"
-range_s = "limited" if src_range == 1 else "full"
+matrix_s = "2020" if src_matrix >= 9 else "709"
+prim_s   = "2020" if src_prim >= 9 else "709"
+if src_trans == 16:
+    trans_s = "smpte2084"
+elif src_trans == 18:
+    trans_s = "arib-std-b67"
+else:
+    trans_s = "709"
+range_s = "full" if src_range == 2 else "limited"
 
 requested_w = int(globals().get('target_width', 0))
 
