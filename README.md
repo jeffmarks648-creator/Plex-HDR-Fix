@@ -28,7 +28,7 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 | **Subtitle Scaling** | Automatic adjustment of ASS substitles for cropped/zoomed content |
 | **Smart Padding** | Automatic pixel alignment (4px width, 2px height) for better scaling and hardware decoding |
 | **Dot-to-Dot Scaling** | Disables upscaling when difference <10 pixels, e.g. 1918 or 3836 width, when fullscreen playback |
-| **Upscaling** | ewa_lanczossharp, mitchell, spline36 with anti-ringing filters |
+| **Upscaling** | ewa_lanczossharp, mitchell, spline36 with zero anti-ringing |
 | **Shaders** | KrigBilateral (edge-preserving), SSimSuperRes (detail enhancement), SSimDownscaler |
 | **Debanding** | 2-iteration debanding with configured threshold, range, and grain for high quality content |
 | **Dithering** | Fruit (8-bit) for SDR display and error diffusion (10-bit) for HDR display |
