@@ -22,7 +22,7 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 | **Target Peak Control** | Real-time target peak brightness cycling (100-450 nits + auto) for various HDR content |
 | **Saturation Control** | Real-time adjustment (-100 to +100) with algorithm-specific presets |
 | **Aspect Ratio Control** | Support cropping, zooming and panscan of widecreen content for full 16:9, 1.9:1 display |
-| **RIFE AI Interpolation** | 3 RIFE models via VapourSynth filters: Action (400), Cinema (406), Realistic (410) and pre-downscalers for various GPU power  |
+| **RIFE AI Interpolation** | 3 RIFE models via VapourSynth filters: Action (400), Cinema (406), Realistic (410) and pre-downscalers (1080p/2K/4K) for various GPU power  |
 | **Interpolation Profiles** | 8 automatic profiles for different display refresh rates, 48Hz, 60 Hz and above, against 24, 48, and 60 fps content |
 | **Auto Refresh Rate** | 48Hz for 24fps content, fullscreen triggers Refresh Rate switch, back to original Hz after 5 min during playback in windowed |
 | **Subtitle Scaling** | Automatic adjustment of ASS substitles for cropped/zoomed content |
