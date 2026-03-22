@@ -1,5 +1,26 @@
 local crop_current_idx = 1
 local vapoursynth_is_active = false
+local temppath = mp.command_native({"expand-path", "~~/scripts/Plex-HDR-Fix.tmp"})
+
+local function create_temp_file()
+    local matrix = mp.get_property("video-params/colormatrix")
+    local range  = mp.get_property("video-params/colorlevels")
+    local prim   = mp.get_property("video-params/primaries")
+  
+    local f = io.open(temppath, "w")
+    if f then
+        f:write(string.format("%s\n%s\n%s", matrix, range, prim))
+        f:close()
+    end
+end
+
+local function cleanup_temp_file()
+    local f = io.open(temppath, "r")
+    if f ~= nil then
+        f:close()
+        os.remove(temppath)
+    end
+end
 
 mp.register_event("file-loaded", function()
     local w = mp.get_property_number("width", 0)
@@ -12,7 +33,13 @@ mp.register_event("file-loaded", function()
 
     vapoursynth_is_active = false
     crop_current_idx = 1
+    mp.add_timeout(0.5, function()
+        create_temp_file()
+    end)
 end)
+
+mp.register_event("end-file", cleanup_temp_file)
+mp.register_event("shutdown", cleanup_temp_file)
 
 local function check_hwdec()
     local w = mp.get_property_number("width", 0)

@@ -1,6 +1,7 @@
 import os
 import sys
 import vapoursynth as vs
+import vsmlrt
 
 py_path = os.path.join(os.environ.get("LOCALAPPDATA", ""), r"Programs\Python\Python312")
 if not os.path.exists(py_path): py_path = r"C:\Program Files\Python312"
@@ -15,28 +16,27 @@ if hasattr(os, 'add_dll_directory'):
 
 os.environ['PATH'] = py_path + os.pathsep + vs_path + os.pathsep + os.environ['PATH']
 
-import vsmlrt
 core = vs.core
 
 my_backend = vsmlrt.Backend.TRT(fp16=True, device_id=0, static_shape=False)
 
-clip = video_in
-props = clip.get_frame(0).props
+tmp_path = os.path.join(os.environ.get("LOCALAPPDATA", ""), r"Plex\scripts\Plex-HDR-Fix.tmp")
+if not os.path.exists(tmp_path):
+    raise vs.Error("Data Sync Failed: vpy_data.tmp not found. Lua must run first.")
 
-src_matrix = int(props.get('_Matrix', 1))
-src_prim = int(props.get('_Primaries', 1))
-src_trans = int(props.get('_Transfer', 1))
-src_range = int(props.get('_ColorRange', 1))
+with open(tmp_path, "r") as f:
+    data = f.read().splitlines()
+    if len(data) < 3:
+        raise vs.Error(f"Data Corruption: Expected 3 lines from Lua, got {len(data)}. Check MPV log.") 
+    u_matrix = data[0]
+    u_range  = data[1]
+    u_prim   = data[2]
 
-matrix_s = "2020" if src_matrix >= 9 else "709"
-prim_s   = "2020" if src_prim >= 9 else "709"
-if src_trans == 16:
-    trans_s = "smpte2084"
-elif src_trans == 18:
-    trans_s = "arib-std-b67"
-else:
-    trans_s = "709"
-range_s = "full" if src_range == 2 else "limited"
+# This is workaround as other than 709 will make the scene darker than normal
+matrix_s = "709"
+prim_s   = "709"
+trans_s  = "709"
+range_s  = u_range
 
 requested_w = int(globals().get('target_width', 0))
 
@@ -56,10 +56,7 @@ else:
 kwargs_in = {
     "format": vs.RGBS,
     "matrix_in_s": matrix_s,
-    "primaries_in_s": prim_s,
     "range_in_s": range_s,
-    "transfer_in_s": trans_s,
-    "transfer_s": "linear",
     "filter_param_a": 0,        # b=0
     "filter_param_b": 0.5       # c=0.5 (Catmull-Rom)
 }
@@ -93,12 +90,16 @@ if p_w > 0 or p_h > 0:
 kwargs_out = {
     "format": vs.YUV420P10,
     "matrix_s": matrix_s,
-    "primaries_s": prim_s,
-    "range_s": range_s,
-    "transfer_in_s": "linear",
-    "transfer_s": trans_s
+    "range_s": range_s
 }
 
 clip = core.resize.Bicubic(clip, **kwargs_out)
+
+m_v = 9 if ("2020" in u_matrix or "dolby" in u_matrix) else 1
+p_v = 9 if "2020" in u_prim else 1
+t_v = 16 if ("2084" in u_prim or "dolby" in u_matrix or "2020" in u_matrix) else 1
+r_v = 1 if "limited" in u_range else 0
+
+clip = core.std.SetFrameProps(clip, _Matrix=m_v, _Primaries=p_v, _Transfer=t_v, _ColorRange=r_v)
 
 clip.set_output()
