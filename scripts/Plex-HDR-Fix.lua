@@ -33,7 +33,7 @@ mp.register_event("file-loaded", function()
 
     vapoursynth_is_active = false
     crop_current_idx = 1
-    mp.add_timeout(0.5, function()
+    mp.add_timeout(1, function()
         create_temp_file()
     end)
 end)
