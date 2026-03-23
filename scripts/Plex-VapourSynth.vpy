@@ -31,12 +31,15 @@ with open(tmp_path, "r") as f:
     u_matrix = data[0]
     u_range  = data[1]
     u_prim   = data[2]
+    u_gamma  = data[3]
 
-# This is workaround as other than 709 will make the scene darker than normal
-matrix_s = "709"
-prim_s   = "709"
-trans_s  = "709"
-range_s  = u_range
+m_v = 9 if ("2020" in u_matrix or "dolby" in u_matrix) else 1
+p_v = 12 if ("p3" in u_prim or "dci" in u_prim) else (11 if ("display" in u_prim) else (9 if m_v==9 else 1))
+t_v = 18 if ("arib" in u_gamma or "b67" in u_gamma or "hlg" in u_gamma) else (16 if m_v==9 else (13 if ("1886" in u_gamma) else 1))
+r_v = 1 if "limited" in u_range else 0
+
+# Need reverse full colour range to prevent darken the limited and brighten the full during Resize().
+r_v_fixed = 0 if r_v == 1 else 1
 
 requested_w = int(globals().get('target_width', 0))
 
@@ -55,24 +58,27 @@ else:
 
 kwargs_in = {
     "format": vs.RGBS,
-    "matrix_in_s": matrix_s,
-    "range_in_s": range_s,
+    "matrix_in": m_v,              
+    "primaries_in": p_v,
+    "transfer_in": t_v,  
+    "range_in": r_v_fixed,
     "filter_param_a": 0,        # b=0
     "filter_param_b": 0.5       # c=0.5 (Catmull-Rom)
 }
 
+clip = video_in
 if do_scale:
     if needs_odd_fix:
-        clip = core.std.AddBorders(video_in, bottom=2)
+        clip = core.std.AddBorders(clip, bottom=2)
         clip = core.resize.Bicubic(clip, width=target_w, height=target_h + 1, **kwargs_in)
     else:
-        clip = core.resize.Bicubic(video_in, width=target_w, height=target_h, **kwargs_in)
+        clip = core.resize.Bicubic(clip, width=target_w, height=target_h, **kwargs_in)
 else:
     if needs_odd_fix:
-        clip = core.std.AddBorders(video_in, bottom=1)
+        clip = core.std.AddBorders(clip, bottom=1)
         clip = core.resize.Bicubic(clip, width=target_w, height=target_h + 1, **kwargs_in)
     else:
-        clip = core.resize.Bicubic(video_in, **kwargs_in)
+        clip = core.resize.Bicubic(clip, **kwargs_in)
 
 w, h = clip.width, clip.height
 p_w = (64 - (w % 64)) % 64
@@ -89,16 +95,13 @@ if p_w > 0 or p_h > 0:
 
 kwargs_out = {
     "format": vs.YUV420P10,
-    "matrix_s": matrix_s,
-    "range_s": range_s
+    "matrix": m_v,
+    "transfer": t_v,
+    "primaries": p_v,
+    "range": r_v_fixed
 }
 
 clip = core.resize.Bicubic(clip, **kwargs_out)
-
-m_v = 9 if ("2020" in u_matrix or "dolby" in u_matrix) else 1
-p_v = 9 if "2020" in u_prim else 1
-t_v = 16 if ("2084" in u_prim or "dolby" in u_matrix or "2020" in u_matrix) else 1
-r_v = 1 if "limited" in u_range else 0
 
 clip = core.std.SetFrameProps(clip, _Matrix=m_v, _Primaries=p_v, _Transfer=t_v, _ColorRange=r_v)
 

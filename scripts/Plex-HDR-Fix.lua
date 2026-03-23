@@ -6,10 +6,11 @@ local function create_temp_file()
     local matrix = mp.get_property("video-params/colormatrix")
     local range  = mp.get_property("video-params/colorlevels")
     local prim   = mp.get_property("video-params/primaries")
+    local transfer = mp.get_property("video-params/gamma")
   
     local f = io.open(temppath, "w")
     if f then
-        f:write(string.format("%s\n%s\n%s", matrix, range, prim))
+        f:write(string.format("%s\n%s\n%s\n%s", matrix, range, prim, transfer))
         f:close()
     end
 end
