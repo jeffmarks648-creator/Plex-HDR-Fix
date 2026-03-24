@@ -26,20 +26,22 @@ if not os.path.exists(tmp_path):
 
 with open(tmp_path, "r") as f:
     data = f.read().splitlines()
-    if len(data) < 3:
-        raise vs.Error(f"Data Corruption: Expected 3 lines from Lua, got {len(data)}. Check MPV log.") 
+    if len(data) < 5:
+        raise vs.Error(f"Data Corruption: Expected 5 lines from Lua, got {len(data)}. Check MPV log.") 
     u_matrix = data[0]
     u_range  = data[1]
     u_prim   = data[2]
     u_gamma  = data[3]
+    u_cloc   = data[4]
 
 m_v = 9 if ("2020" in u_matrix or "dolby" in u_matrix) else 1
 p_v = 12 if ("p3" in u_prim or "dci" in u_prim) else (11 if ("display" in u_prim) else (9 if m_v==9 else 1))
 t_v = 18 if ("arib" in u_gamma or "b67" in u_gamma or "hlg" in u_gamma) else (16 if m_v==9 else (13 if ("1886" in u_gamma) else 1))
 r_v = 1 if "limited" in u_range else 0
+c_v = 2 if ("uhd" in u_cloc or "topleft" in u_cloc) else (1 if ("h264" in u_cloc or "mpeg" in u_cloc or "left" in u_cloc) else 0)
 
-# Need reverse full colour range to prevent darken the limited and brighten the full during Resize().
-r_v_fixed = 0 if r_v == 1 else 1
+# Need set colour range of "limit" to prevent darken and brighten both the limit/full film during Resize().
+r_v_fixed = 1
 
 requested_w = int(globals().get('target_width', 0))
 
@@ -58,15 +60,13 @@ else:
 
 kwargs_in = {
     "format": vs.RGBS,
-    "matrix_in": m_v,              
-    "primaries_in": p_v,
-    "transfer_in": t_v,  
-    "range_in": r_v_fixed,
     "filter_param_a": 0,        # b=0
     "filter_param_b": 0.5       # c=0.5 (Catmull-Rom)
 }
 
 clip = video_in
+clip = core.std.SetFrameProps(clip, _Matrix=m_v, _Primaries=p_v, _Transfer=t_v, _ColorRange=r_v_fixed, _ChromaLocation=c_v)
+
 if do_scale:
     if needs_odd_fix:
         clip = core.std.AddBorders(clip, bottom=2)
@@ -96,13 +96,11 @@ if p_w > 0 or p_h > 0:
 kwargs_out = {
     "format": vs.YUV420P10,
     "matrix": m_v,
-    "transfer": t_v,
     "primaries": p_v,
-    "range": r_v_fixed
+    "transfer": t_v,
+    "chromaloc": c_v
 }
 
 clip = core.resize.Bicubic(clip, **kwargs_out)
-
-clip = core.std.SetFrameProps(clip, _Matrix=m_v, _Primaries=p_v, _Transfer=t_v, _ColorRange=r_v)
 
 clip.set_output()
