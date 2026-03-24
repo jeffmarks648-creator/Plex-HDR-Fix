@@ -52,7 +52,7 @@ If your monitor frequence supports multipliers of 24 Hz, you can copy `scripts\P
 
 #### 2.2 RIFE (Real-Time Intermediate Flow Estimation) Interpolation
 You can copy `scripts\Plex-VapourSynth*` files in the scripts directory. This integrates to VapourSynth with vs-mlrt plugin that already installed in your machines. Otherwise, you can follow the web sites how to install:
-- Python312 is required
+- Python312 is required for VapourSynth compatible
 - https://github.com/AmusementClub/vs-mlrt
 - https://github.com/vapoursynth/vapoursynth
 
