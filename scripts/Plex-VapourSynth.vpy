@@ -38,7 +38,7 @@ m_v = 9 if ("2020" in u_matrix or "dolby" in u_matrix) else 1
 p_v = 12 if ("p3" in u_prim or "dci" in u_prim) else (11 if ("display" in u_prim) else (9 if m_v==9 else 1))
 t_v = 18 if ("arib" in u_gamma or "b67" in u_gamma or "hlg" in u_gamma) else (16 if m_v==9 else (13 if ("1886" in u_gamma) else 1))
 r_v = 1 if "limited" in u_range else 0
-c_v = 2 if ("uhd" in u_cloc or "topleft" in u_cloc) else (1 if ("h264" in u_cloc or "mpeg" in u_cloc or "left" in u_cloc) else 0)
+c_v = 2 if ("uhd" in u_cloc or "topleft" in u_cloc) else (0 if ("h264" in u_cloc or "mpeg" in u_cloc or "left" in u_cloc) else 1)
 
 # Need set colour range of "limit" to prevent darken and brighten both the limit/full film during Resize().
 r_v_fixed = 1
