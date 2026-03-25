@@ -1,4 +1,4 @@
-# Plex-HDR-Fix: PLEX HDR Fix
+# Plex-HDR-Fix: Plex Desktop HDR Tone Mapping Fix & RIFE AI Interpolation
 ### 🚀 Precision Color Management: Take Control Back from Windows
 
 By default, **Plex Desktop performs no internal tone mapping.** It relies entirely on the OS (Windows/macOS) or your monitor's hardware to handle the signal. This "passive" approach often fails:
