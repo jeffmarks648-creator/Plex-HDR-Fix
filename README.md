@@ -114,7 +114,7 @@ To prevent Windows from interfering with the image, you must align the `target-p
 | **Filter (Cropping)** | `F` (Off/16:9/0.8x/W=1.9xH) | - | `Alt + F` (Reset to Off) | `f` |
 | **Unscale Mode** | `W` (Off/On/downscale-big) | - | - | `w` |
 | **Auto Refresh Rate** | `Q` (Enable/Disable) | - | - | `q` |
-| **Colour Space** | `L` (Limited/Full) | - | - | `l` |
+| **Colour Range** | `L` (Limited/Full) | - | - | `l` |
 | **Output Mode** | `T` (SDR/HDR) | - | `Alt + T` (Force SDR) | `t` |
 | **Rendering Mode**| `R` (Custom/MPV) | - | - | `r` |
 | **Video Params** | - | - | - | `v` |
