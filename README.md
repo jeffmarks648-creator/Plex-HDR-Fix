@@ -112,7 +112,7 @@ To prevent Windows from interfering with the image, you must align the `target-p
 | **Panscan & Zoom** | `H` (Off/Panscan) | `Alt + h` (Off/Zoom) | `Alt + H` (Reset to Off) | `h` |
 | **Filter (Cropping)** | `F` (Off/16:9/0.8x/W=1.9xH) | - | `Alt + F` (Reset to Off) | `f` |
 | **Unscale Mode** | `W` (Off/On/downscale-big) | - | - | `w` |
-| **Automatic Display Hz** | `Q` (Enable/Disable) | - | - | `q` |
+| **Auto Refresh Rate** | `Q` (Enable/Disable) | - | - | `q` |
 | **Output Mode** | `T` (SDR/HDR) | - | `Alt + T` (Force SDR) | `t` |
 | **Rendering Mode**| `R` (Custom/MPV) | - | - | `r` |
 | **Video Params** | - | - | - | `v` |
