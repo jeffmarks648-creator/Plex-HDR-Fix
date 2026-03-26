@@ -206,3 +206,38 @@ vapoursynth_mp.add_key_binding("E", "vapoursynth_toggle_rife", function() vapour
 vapoursynth_mp.add_key_binding("e", "vapoursynth_show_status", vapoursynth_show_status)
 vapoursynth_mp.add_key_binding("alt+e", "vapoursynth_cycle_rife", vapoursynth_cycle_rife)
 vapoursynth_mp.add_key_binding("Alt+E", "vapoursynth_cycle_downscaler", vapoursynth_cycle_downscaler)
+
+function toggle_range_format()
+    local vfs = mp.get_property_native("vf")
+    local found = false
+    
+    for _, vf in ipairs(vfs) do
+        if vf.label == "FORMAT" and vf.name ~= "null" then
+            found = true
+            break
+        end
+    end
+
+    if found then
+        mp.command('vf add @FORMAT:null')
+        mp.osd_message("Color Range Fix: [OFF]", 2)
+    else
+        local orig = mp.get_property("video-params/colorlevels")
+        
+        if orig == "full" then
+            mp.command('vf add @FORMAT:format=colorlevels=limited')
+            mp.osd_message("Color Range: [FORCED LIMITED]", 2)
+        else
+            mp.command('vf add @FORMAT:format=colorlevels=full')
+            mp.osd_message("Color Range: [FORCED FULL]", 2)
+        end
+    end
+end
+
+mp.add_key_binding("l", "show-range-out", function()
+    local out_range = mp.get_property("video-out-params/colorlevels") or "unknown"
+    
+    mp.osd_message("Color Range: " .. out_range:upper(), 2)
+end)
+
+mp.add_key_binding("L", "toggle-range-format", toggle_range_format)
