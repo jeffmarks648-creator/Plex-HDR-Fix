@@ -1,5 +1,8 @@
 local crop_current_idx = 1
 local vapoursynth_is_active = false
+local vapoursynth_original_interpolation = nil
+local vapoursynth_rife_timer = nil
+local vapoursynth_original_is_playing = false
 local temppath = mp.command_native({"expand-path", "~~/scripts/Plex-HDR-Fix.tmp"})
 
 local function create_temp_file()
@@ -34,6 +37,10 @@ mp.register_event("file-loaded", function()
     end
 
     vapoursynth_is_active = false
+    vapoursynth_original_interpolation = nil
+    vapoursynth_rife_timer = nil
+    vapoursynth_original_is_playing = false
+
     crop_current_idx = 1
     mp.add_timeout(1, function()
         create_temp_file()
@@ -90,12 +97,7 @@ local vapoursynth_label = "VAPOUR"
 local vapoursynth_rife_styles = {"400", "406", "410"}
 local vapoursynth_rife_names = {["400"]="Action", ["406"]="Cinema", ["410"]="Realistic"}
 local vapoursynth_rife_paths = {}
-
 local vapoursynth_rife_idx = 1
-
-local vapoursynth_original_interpolation = nil
-local vapoursynth_rife_timer = nil
-local vapoursynth_original_is_playing = false
 
 local vapoursynth_scale_target_w = {1920, 2560, 3840}
 local vapoursynth_scale_target_h = {1080, 1440, 2160}
