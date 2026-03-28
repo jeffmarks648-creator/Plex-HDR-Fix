@@ -24,7 +24,8 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 | **RIFE AI Interpolation** | 3 RIFE models via VapourSynth filters: Action (400), Cinema (406), Realistic (410) and pre-downscalers (1080p/2K/4K) for various GPU power  |
 | **Interpolation Profiles** | 8 automatic profiles for different display refresh rates, 48Hz, 60 Hz and above, against 24, 48, and 60 fps content |
 | **Auto Refresh Rate** | 48Hz for 24fps content, fullscreen triggers Refresh Rate switch, back to original Hz after 5 min during playback in windowed |
-| **Subtitle Scaling** | Automatic adjustment of ASS substitles for cropped/zoomed content |
+| **ASS Subtitle Scaling** | Automatic adjustment of ASS substitles for cropped/zoomed content |
+| **SRT Subtitle Scaling** | Support toggling SRT subtitle into media area and scale accordingly |
 | **Smart Padding** | Automatic pixel alignment (4px width, 2px height) for better scaling and hardware decoding |
 | **Dot-to-Dot Scaling** | Automatically disables upscaling when difference <10 pixels, e.g. 1918 or 3836 width, when fullscreen playback |
 | **Color Range Toogle** | Toggle for color range in case some media files wrongly tagged. |
@@ -112,6 +113,7 @@ To prevent Windows from interfering with the image, you must align the `target-p
 | **Interpolation** | `I` (On/Off) | - | - | `i` |
 | **Panscan & Zoom** | `H` (Off/Panscan) | `Alt + h` (Off/Zoom) | `Alt + H` (Reset to Off) | `h` |
 | **Filter (Cropping)** | `F` (Off/16:9/0.8x/W=1.9xH) | - | `Alt + F` (Reset to Off) | `f` |
+| **SRT Subtitle Location** | `A` (ON/OFF Margin Area) | - | - | `a` |
 | **Unscale Mode** | `W` (Off/On/downscale-big) | - | - | `w` |
 | **Auto Refresh Rate** | `Q` (Enable/Disable) | - | - | `q` |
 | **Colour Range** | `L` (Limited/Full) | - | - | `l` |
