@@ -26,7 +26,7 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 | **Auto Refresh Rate** | 48Hz for 24fps content, fullscreen triggers Refresh Rate switch, back to original Hz after 5 min during playback in windowed |
 | **ASS Subtitle Scaling** | Automatic adjustment of ASS substitles for cropped/zoomed content |
 | **SRT Subtitle Scaling** | Support toggling SRT subtitle into media area and scale accordingly |
-| **Color Range Toogle** | Toggle for color range in case some media files wrongly tagged. |
+| **Color Range Override** | Toggle for color range in case some media files wrongly tagged. |
 | **Smart Padding** | Automatic pixel alignment (4px width, 2px height) for better scaling and hardware decoding |
 | **Dot-to-Dot Scaling** | Automatically disables upscaling when difference <10 pixels, e.g. 1918 or 3836 width, when fullscreen playback |
 | **Scaler** | ewa_lanczossharp, mitchell, spline36 with zero anti-ringing |
