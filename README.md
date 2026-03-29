@@ -113,10 +113,10 @@ To prevent Windows from interfering with the image, you must align the `target-p
 | **Interpolation** | `I` (On/Off) | - | - | `i` |
 | **Panscan & Zoom** | `H` (Off/Panscan) | `Alt + h` (Off/Zoom) | `Alt + H` (Reset to Off) | `h` |
 | **Filter (Cropping)** | `F` (Off/16:9/0.8x/W=1.9xH) | - | `Alt + F` (Reset to Off) | `f` |
-| **SRT Subtitle Location** | `A` (ON/OFF Margin Area) | - | - | `a` |
 | **Auto Refresh Rate** | `Q` (Enable/Disable) | - | - | `q` |
+| **SRT Subtitle Location** | `A` (ON/OFF Margin Area) | - | - | `a` |
 | **Unscale Mode** | `W` (Off/On/downscale-big) | - | - | `w` |
-| **Colour Range** | `L` (Limited/Full) | - | - | `l` |
+| **Colour Range Override** | `L` (Limited/Full) | - | - | `l` |
 | **Output Mode** | `T` (SDR/HDR) | - | `Alt + T` (Force SDR) | `t` |
 | **Rendering Mode**| `R` (Custom/MPV) | - | - | `r` |
 | **Video Params** | - | - | - | `v` |
