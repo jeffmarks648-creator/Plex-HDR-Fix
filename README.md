@@ -112,7 +112,7 @@ To prevent Windows from interfering with the image, you must align the `target-p
 | **RIFE Interpolation** | `E` (Enable/Disable) | `Alt + e` (Action/Cinema/Realistic) | `Alt + E` (Downscaler: 1080p/2K/4K) | `e` |
 | **Interpolation** | `I` (On/Off) | - | - | `i` |
 | **Panscan & Zoom** | `H` (Off/Panscan) | `Alt + h` (Off/Zoom) | `Alt + H` (Reset to Off) | `h` |
-| **Filter (Cropping)** | `F` (Off/16:9/0.8x/W=1.9xH) | - | `Alt + F` (Reset to Off) | `f` |
+| **Filter (Cropping)** | `F` (Off/16:9/0.8x/W=1.9xH/H=W/2.35) | - | `Alt + F` (Reset to Off) | `f` |
 | **Auto Refresh Rate** | `Q` (Enable/Disable) | - | - | `q` |
 | **SRT Subtitle Location** | `A` (ON/OFF Margin Area) | - | - | `a` |
 | **Unscale Mode** | `W` (Off/On/downscale-big) | - | - | `w` |
