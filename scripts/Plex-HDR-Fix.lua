@@ -63,7 +63,8 @@ local crop_modes = {
     "null",
     "crop=ceil(ih*16/9/4)*4:ih",
     "crop=ceil(iw*0.8/4)*4:ceil(ih*0.8/4)*4:floor((iw-ow)/2/2)*2:floor((ih-oh)/2/2)*2",
-    "crop=ceil(ih*1.9/4)*4:ih"
+    "crop=ceil(ih*1.9/4)*4:ih",
+    "crop=iw:ceil(iw/2.35/4)*4:0:floor((ih-oh)/2/2)*2"
 }
 
 local function crop_apply()
