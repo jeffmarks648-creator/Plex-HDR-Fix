@@ -90,14 +90,6 @@ To prevent Windows from interfering with the image, you must align the `target-p
 *   Pressing `d` triggers the MPV dashboard, allowing you to monitor video information, peak brightness, and renderer status & processing time.
 *   Pressing 'g' triggers tone mapping graph.
 
-### Dashboard - Main Page
-![Plex Dashboard](dashboard-1.png)
-
-### Dashboard - 2nd Page
-![Plex Dashboard](dashboard-2.png)
-
-### Tone Mappping Graph
-![Plex Dashboard](dashboard-3.png)
 ---
 
 ## ⌨️ Hotkeys (Full Key Operations)
