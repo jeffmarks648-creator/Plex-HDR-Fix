@@ -65,7 +65,7 @@ kwargs_in = {
 }
 
 clip = video_in
-clip = core.std.SetFrameProps(clip, _Matrix=m_v, _Primaries=p_v, _Transfer=t_v, _ColorRange=r_v_fixed, _ChromaLocation=c_v)
+clip = core.std.SetFrameProps(clip, _Matrix=m_v, _Primaries=p_v, _Transfer=t_v, _ColorRange=r_v_fixed, _ChromaLocation=c_v, _SARNum=1, _SARDen=1)
 
 if do_scale:
     if needs_odd_fix:
