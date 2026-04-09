@@ -24,6 +24,7 @@ This configuration suite fixes Plex by implementing an **active mpv pipeline** u
 | **RIFE AI Interpolation** | 3 RIFE models via VapourSynth filters: Action (400), Cinema (406), Realistic (410) and pre-downscalers (1080p/2K/4K) for various GPU power  |
 | **Interpolation Profiles** | 8 automatic profiles for different display refresh rates, 48Hz, 60 Hz and above, against 24, 48, and 60 fps content |
 | **Auto Refresh Rate** | 48Hz for 24fps content, fullscreen triggers Refresh Rate switch, back to original Hz after 5 min during playback in windowed |
+| **Playback Speed Control** | Toggle playback speed: 0.25x, 0.5x, 0.75x, 1x, 1.25x, 1.5x, 2x, 3x, 4x |
 | **ASS Subtitle Scaling** | Automatic adjustment of ASS substitles for cropped/zoomed content |
 | **SRT/ASS Subtitle Location** | Support toggling SRT/ASS subtitle into media bottom or margin area and scale accordingly |
 | **Color Range Override** | Toggle for color range in case some media files wrongly tagged. |
@@ -106,6 +107,7 @@ To prevent Windows from interfering with the image, you must align the `target-p
 | **Panscan & Zoom** | `H` (Off/Panscan) | `Alt + h` (Off/Zoom) | `Alt + H` (Reset to Off) | `h` |
 | **Filter (Cropping)** | `F` (Off/16:9/0.8x/W=1.9xH/H=W/2.35) | - | `Alt + F` (Reset to Off) | `f` |
 | **Auto Refresh Rate** | `Q` (Enable/Disable) | - | - | `q` |
+| **Playback Speed** | `UP` | `DOWN` | - | - |
 | **Subtitle ON/OFF in Margin Area** | `A` (SRT) | `Alt+a` (ASS) | - | `a` |
 | **Unscale Mode** | `W` (Off/On/downscale-big) | - | - | `w` |
 | **Colour Range Override** | `L` (Limited/Full) | - | - | `l` |
